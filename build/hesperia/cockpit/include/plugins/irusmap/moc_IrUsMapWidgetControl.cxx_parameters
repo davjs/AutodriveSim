@@ -1,0 +1,14 @@
+-I/home/david/AutoDriveSim2/_buildtools/cxxtest
+-I/usr/include/qt4
+-I/usr/include/qt4/QtGui
+-I/usr/include/qt4/QtCore
+-I/home/david/AutoDriveSim2/libopendavinci/include
+-I/home/david/AutoDriveSim2/libdata/include
+-I/home/david/AutoDriveSim2/hesperia/libhesperia/include
+-I/home/david/AutoDriveSim2/hesperia/cockpit/include
+-DQT_NO_DEBUG
+-DQT_GUI_LIB
+-DQT_CORE_LIB
+-o
+/home/david/AutoDriveSim2/build/hesperia/cockpit/include/plugins/irusmap/moc_IrUsMapWidgetControl.cxx
+/home/david/AutoDriveSim2/hesperia/cockpit/include/plugins/irusmap/IrUsMapWidgetControl.h

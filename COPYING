@@ -1,0 +1,24 @@
+There are different licenses with this software distribution:
+
+Data.odvd - GPL 2
+
+libopendavinci - LGPL 2.1
+libvehicle - LGPL 2.1
+
+hesperia/camgen - GPL 2
+hesperia/chasecar - GPL 2
+hesperia/cockpit - GPL 2
+hesperia/drivenpath - GPL 2
+hesperia/egocontroller - GPL 2
+hesperia/irus - GPL 2
+hesperia/libhesperia - GPL 2
+hesperia/rec2stdout - GPL 2
+hesperia/vehicle - GPL 2
+
+tools/player - GPL 2
+tools/recorder - GPL 2
+tools/recintegrity - GPL 2
+tools/split - GPL 2
+tools/spy - GPL 2
+
+supercomponent - GPL 2
