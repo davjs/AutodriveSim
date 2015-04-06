@@ -23,9 +23,11 @@
 
 #include "core/macros.h"
 #include "core/base/KeyValueConfiguration.h"
+#include "core/data/Constants.h"
 #include "core/data/Container.h"
 #include "core/data/image/SharedImage.h"
 #include "core/io/ContainerConference.h"
+#include "core/data/control/VehicleControl.h"
 #include "core/wrapper/SharedMemoryFactory.h"
 
 #include "tools/player/Player.h"
@@ -40,6 +42,7 @@ namespace msv {
     using namespace core::base;
     using namespace core::data;
     using namespace core::data::image;
+    using namespace core::data::control;
     using namespace tools::player;
 
     LaneDetector::LaneDetector(const int32_t &argc, char **argv) : ConferenceClientModule(argc, argv, "lanedetector"),
@@ -133,7 +136,21 @@ namespace msv {
 
         // 2. Calculate desired steering commands from your image features to be processed by driver.
 
+        // Create vehicle control data.
+        VehicleControl vc;
 
+        // With setSpeed you can set a desired speed for the vehicle in the range of -2.0 (backwards) .. 0 (stop) .. +2.0 (forwards)
+        vc.setSpeed(0.4);
+
+        // With setSteeringWheelAngle, you can steer in the range of -26 (left) .. 0 (straight) .. +25 (right)
+        double desiredSteeringWheelAngle = 4; // 4 degree but SteeringWheelAngle expects the angle in radians!
+        vc.setSteeringWheelAngle(desiredSteeringWheelAngle * Constants::DEG2RAD);
+
+        // Create container for finally sending the data.
+        Container c(Container::VEHICLECONTROL, vc);
+        // Send container.
+        getConference().send(c);
+/*
 
         // Here, you see an example of how to send the data structure SteeringData to the ContainerConference. This data structure will be received by all running components. In our example, it will be processed by Driver. To change this data structure, have a look at Data.odvd in the root folder of this source.
         SteeringData sd;
@@ -142,7 +159,7 @@ namespace msv {
         // Create container for finally sending the data.
         Container c(Container::USER_DATA_1, sd);
         // Send container.
-        getConference().send(c);
+        getConference().send(c);*/
     }
 
     // This method will do the main data processing job.
