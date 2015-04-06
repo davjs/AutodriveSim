@@ -6,6 +6,10 @@ cmake_install.cmake
 install_manifest.txt
 
 
+#ignore build folder
+build/*
+!build/placeholder
+
 ### C++ ###
 # Compiled Object files
 *.slo
