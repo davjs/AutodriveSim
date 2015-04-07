@@ -20,6 +20,10 @@
 #include <iostream>
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
+#include "opencv2/imgproc/imgproc.hpp"
+#include <opencv2/opencv.hpp>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
 
 #include "core/macros.h"
 #include "core/base/KeyValueConfiguration.h"
@@ -34,6 +38,8 @@
 
 #include "GeneratedHeaders_Data.h"
 
+#define _DEBUG
+#include "../Autodrive/Include/imageprocessor.hpp"
 #include "LaneDetector.h"
 
 namespace msv {
@@ -44,6 +50,7 @@ namespace msv {
     using namespace core::data::image;
     using namespace core::data::control;
     using namespace tools::player;
+    using namespace cv;
 
     LaneDetector::LaneDetector(const int32_t &argc, char **argv) : ConferenceClientModule(argc, argv, "lanedetector"),
         m_hasAttachedToSharedImageMemory(false),
@@ -120,46 +127,31 @@ namespace msv {
     // You should start your work in this method.
     void LaneDetector::processImage() {
         // Example: Show the image.
+        //TODO: Start here.
+        Mat frame = cv::cvarrToMat(m_image);
+        Autodrive::command result = Autodrive::processImage(frame,frame.step);
         if (m_debug) {
             if (m_image != NULL) {
-                cvShowImage("WindowShowImage", m_image);
+                imshow("w", frame);
                 cvWaitKey(10);
             }
         }
 
-        //TODO: Start here.
+        if(result.changedSpeed || result.changedAngle){//Only send packets when nescecary
+            // Create vehicle control data.
+            VehicleControl vc;
+            // With setSpeed you can set a desired speed for the vehicle in the range of -2.0 (backwards) .. 0 (stop) .. +2.0 (forwards)
 
-
-        // 1. Do something with the image m_image here, for example: find lane marking features, optimize quality, ...
-
-
-
-        // 2. Calculate desired steering commands from your image features to be processed by driver.
-
-        // Create vehicle control data.
-        VehicleControl vc;
-
-        // With setSpeed you can set a desired speed for the vehicle in the range of -2.0 (backwards) .. 0 (stop) .. +2.0 (forwards)
-        vc.setSpeed(0.4);
-
-        // With setSteeringWheelAngle, you can steer in the range of -26 (left) .. 0 (straight) .. +25 (right)
-        double desiredSteeringWheelAngle = 4; // 4 degree but SteeringWheelAngle expects the angle in radians!
-        vc.setSteeringWheelAngle(desiredSteeringWheelAngle * Constants::DEG2RAD);
-
-        // Create container for finally sending the data.
-        Container c(Container::VEHICLECONTROL, vc);
-        // Send container.
-        getConference().send(c);
-/*
-
-        // Here, you see an example of how to send the data structure SteeringData to the ContainerConference. This data structure will be received by all running components. In our example, it will be processed by Driver. To change this data structure, have a look at Data.odvd in the root folder of this source.
-        SteeringData sd;
-        sd.setExampleData(1234.56);
-
-        // Create container for finally sending the data.
-        Container c(Container::USER_DATA_1, sd);
-        // Send container.
-        getConference().send(c);*/
+            if(result.changedSpeed) vc.setSpeed(result.speed);
+            else vc.setSpeed(10);
+            // With setSteeringWheelAngle, you can steer in the range of -26 (left) .. 0 (straight) .. +25 (right)
+            if(result.changedAngle)
+                vc.setSteeringWheelAngle(result.angle*0.25);
+            // Create container for finally sending the data.
+            Container c(Container::VEHICLECONTROL, vc);
+            // Send container.
+            getConference().send(c);
+        }
     }
 
     // This method will do the main data processing job.
