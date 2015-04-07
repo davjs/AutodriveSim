@@ -12,7 +12,6 @@ PROJECT (OPENDAVINCI)
 IF(UNIX)
     SET (CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-fPIC")
     SET (CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wno-deprecated -Wall -Werror -Wextra -Wfloat-equal -Wshadow -Wpointer-arith -Wwrite-strings -Wpacked -pipe")
-
     # Remove "-ansi" flag for clang on Darwin.
     IF((NOT "${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin") AND (NOT "${CMAKE_SYSTEM_NAME}" STREQUAL "FreeBSD") AND (NOT "${CMAKE_SYSTEM_NAME}" STREQUAL "NetBSD"))
         SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ansi")
@@ -23,6 +22,9 @@ IF(UNIX)
         SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wmissing-format-attribute -Wredundant-decls -Wno-error=effc++ -Weffc++")
     ENDIF(NOT "${CMAKE_SYSTEM_NAME}" STREQUAL "OpenBSD")
 ENDIF(UNIX)
+
+# ALLWAYS USE C++11
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 # Set the search path for .cmake files.
 SET (CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/_buildtools" ${CMAKE_MODULE_PATH})
