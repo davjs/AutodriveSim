@@ -39,7 +39,7 @@
 #include "GeneratedHeaders_Data.h"
 
 #define _DEBUG
-#include "../Autodrive/Include/imageprocessor.hpp"
+#include "../Autodrive/Include/autodrive.hpp"
 #include "LaneDetector.h"
 
 namespace msv {
@@ -129,24 +129,25 @@ namespace msv {
         // Example: Show the image.
         //TODO: Start here.
         Mat frame = cv::cvarrToMat(m_image);
-        Autodrive::command result = Autodrive::processImage(frame,frame.step);
+        Autodrive::SensorData::image = &frame;
+        Autodrive::drive();
         if (m_debug) {
             if (m_image != NULL) {
                 imshow("w", frame);
                 cvWaitKey(10);
             }
         }
-
-        if(result.changedSpeed || result.changedAngle){//Only send packets when nescecary
+        
+        if(Autodrive::speedChanged()|| Autodrive::angleChanged()){//Only send packets when nescecary
             // Create vehicle control data.
             VehicleControl vc;
             // With setSpeed you can set a desired speed for the vehicle in the range of -2.0 (backwards) .. 0 (stop) .. +2.0 (forwards)
-
-            if(result.changedSpeed) vc.setSpeed(result.speed);
+            if(Autodrive::speedChanged())
+                vc.setSpeed(Autodrive::getSpeed());
             else vc.setSpeed(10);
             // With setSteeringWheelAngle, you can steer in the range of -26 (left) .. 0 (straight) .. +25 (right)
-            if(result.changedAngle)
-                vc.setSteeringWheelAngle(result.angle*0.25);
+            if(Autodrive::angleChanged())
+                vc.setSteeringWheelAngle(Autodrive::getAngle());
             // Create container for finally sending the data.
             Container c(Container::VEHICLECONTROL, vc);
             // Send container.
