@@ -129,8 +129,11 @@ namespace msv {
         // Example: Show the image.
         //TODO: Start here.
         Mat frame = cv::cvarrToMat(m_image);
-        Autodrive::SensorData::image = &frame;
+        cv::Mat copy;
+        cv::resize(frame,copy,cv::Size(240,135));
+        Autodrive::SensorData::image = &copy;
         Autodrive::drive();
+        cv::resize(copy,frame,cv::Size(640,480));
         if (m_debug) {
             if (m_image != NULL) {
                 imshow("w", frame);
