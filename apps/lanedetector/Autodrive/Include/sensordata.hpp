@@ -12,12 +12,20 @@ namespace Autodrive
             REAR = 2
         };
 
-        double PULSES_PER_CM = 0.5; //to be determined experimentally
+        double PULSES_PER_CM = 0.5;     //to be determined experimentally
         int ultrasound[] = { 0, 0, 0 }; // front, frontright, rear
-        int infrared[] = { 0, 0, 0 }; // frontright, rearright, rear
+        int infrared[] = { 0, 0, 0 };   // frontright, rearright, rear
         long encoderPulses = 0;
-
+        
 		// required for parking
+        int irFrontRight = infrared[0];
+        int irRear = infrared[1];
+        int irRearRight = infrared[2];
+        
+        int usFront = ultrasound[0];
+        int usFrontRight = ultrasound[1];
+        int usRearRight = ultrasound[2];
+        
 		int currentSpeed = 0;
 		int currentAngle = 0;
 		// --------------------

@@ -8,7 +8,7 @@ namespace Autodrive {
 
 	namespace Maneuver{
 
-		int turningSpeed = 1;
+		int slowSpeed = 1;
 		int normalSpeed = 2;
 
 		// measuring distance traveled
@@ -51,14 +51,14 @@ namespace Autodrive {
 		// turns the car
 		command Turn(int angle) {
 			command cmd;
-			cmd.setSpeed(turningSpeed);
+			cmd.setSpeed(slowSpeed);
 			cmd.setAngle(angle);
 			return cmd;
 		}
 
 		command Turn(direction direction) {
 			command cmd;
-			cmd.setSpeed(turningSpeed);
+			cmd.setSpeed(slowSpeed);
 			if (direction == right) {
 				cmd.setAngle(25);
 			} else {
@@ -134,6 +134,8 @@ namespace Autodrive {
 
 			// the parallel parking maneuver
 			command ParallelStandard(){
+				
+				command empty;
 
 				switch(currentManeuver){
 
@@ -146,7 +148,7 @@ namespace Autodrive {
 						break;
 
 					case BACKWARDS_RIGHT:
-						SetSpeed(turningSpeed * -1);
+						SetSpeed(slowSpeed * -1);
 
 						if(Status::EmergencyStop(back)){
 							currentManeuver = FORWARD_RIGHT;
@@ -161,7 +163,7 @@ namespace Autodrive {
 						break;
 
 					case BACKWARDS_LEFT:
-						SetSpeed(turningSpeed * -1);
+						SetSpeed(slowSpeed * -1);
 
 						if(Status::EmergencyStop(back)){
 							currentManeuver = FORWARD_RIGHT;
@@ -177,7 +179,7 @@ namespace Autodrive {
 
 					case FORWARD_RIGHT:
 
-						SetSpeed(turningSpeed);
+						SetSpeed(slowSpeed);
 
 						if(Status::EmergencyStop(back)){
 							currentManeuver = BACKWARDS_LEFT;
@@ -191,7 +193,49 @@ namespace Autodrive {
 						}
 
 					default:
-						return null;
+						return empty;
+				}
+			}
+			
+			// perpendicular parking maneuver
+			command PerpendicularStandard(){
+				switch(currentManeuver){
+					case NO_MANEUVER:
+		                case NO_MANEUVER:
+						if(Status::IsStoped()){
+							currentManeuver = BACKWARDS_RIGHT;
+						}else{
+							return Stop();
+						}
+						break;
+		
+					case BACKWARDS_RIGHT:
+						SetSpeed(slowSpeed * -1);
+
+						if(Status::EmergencyStop(back)){
+							currentManeuver = FORWARD_RIGHT;
+							return Stop();
+						}else{
+							if(Status::HasTurnedAngle(90)){
+								currentManeuver = BACKWARDS_LEFT;
+							}else{
+								return Turn(right);
+							}
+						}
+						break;
+		
+		            case BACKWARDS:
+						
+		                if(HasTraveledDistance(1)){
+							currentManeuver = DONE;
+							return Stop();
+		                }else{
+							return Move(slowSpeed);
+						}
+		                break;
+		
+					default:
+						return empty;
 				}
 			}
 		} // Parking
