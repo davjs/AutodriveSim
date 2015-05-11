@@ -96,7 +96,7 @@ namespace Autodrive {
 			}
 
 			// checks if the car has turned a specific angle
-			bool HasTurnedAngle(int angle){
+			bool HasTurnedAngle(int desiredAngle){
 
 				float currentAngle = 0;
 
@@ -130,9 +130,9 @@ namespace Autodrive {
 			}
 		}
 
-		namespace Parking{
-
-			// the parallel parking maneuver
+		//namespace Parking{
+			/* ------------------------------------------ */
+			/* the parallel parking maneuver */
 			command ParallelStandard(){
 				
 				command empty;
@@ -142,10 +142,10 @@ namespace Autodrive {
 					case NO_MANEUVER:
 						if(Status::IsStoped()){
 							currentManeuver = BACKWARDS_RIGHT;
+							return empty;
 						}else{
 							return Stop();
 						}
-						break;
 
 					case BACKWARDS_RIGHT:
 						SetSpeed(slowSpeed * -1);
@@ -156,37 +156,35 @@ namespace Autodrive {
 						}else{
 							if(Status::HasTurnedAngle(60)){
 								currentManeuver = BACKWARDS_LEFT;
+								return empty;
 							}else{
 								return Turn(right);
 							}
 						}
-						break;
 
 					case BACKWARDS_LEFT:
 						SetSpeed(slowSpeed * -1);
-
 						if(Status::EmergencyStop(back)){
 							currentManeuver = FORWARD_RIGHT;
 							return Stop();
 						}else{
 							if(Status::HasTurnedAngle(-60)){
 								currentManeuver = DONE;
+								return empty;
 							}else{
 								return Turn(left);
 							}
 						}
-						break;
 
 					case FORWARD_RIGHT:
-
 						SetSpeed(slowSpeed);
-
 						if(Status::EmergencyStop(back)){
 							currentManeuver = BACKWARDS_LEFT;
 							return Stop();
 						}else{
 							if(Status::HasTurnedAngle(60)){
 								currentManeuver = DONE;
+								return empty;
 							}else{
 								return Turn(right);
 							}
@@ -196,49 +194,89 @@ namespace Autodrive {
 						return empty;
 				}
 			}
-			
-			// perpendicular parking maneuver
-			command PerpendicularStandard(){
+			/* ------------------------------------------ */
+			/* the parallel parking maneuver on wide spot */
+			/* command ParallelWide(){
+				
+				command empty;
+				
 				switch(currentManeuver){
 					case NO_MANEUVER:
-		                case NO_MANEUVER:
+						cout << "parallel wide" << endl;
+		                if(TryStop()){
+		                    currentManeuver = FORWARD_RIGHT;
+		                }
+						return PARKING;
+		
+		            case FORWARD_RIGHT:
+		                cout << "forward right" << endl;
+		                SetSpeed(turningSpeed);
+		
+		                if(TryTurn(60)){
+		                	currentManeuver = FORWARD_LEFT;
+		                }
+		                return PARKING;
+		
+		            case FORWARD_LEFT:
+		                 cout << "forward left" << endl;
+		                 SetSpeed(turningSpeed);
+		
+		                 if(TryTurn(-60)){
+		                	 if(TryStop()){
+		                		 return DONE;
+		                	 }else{
+		                		 return PARKING;
+		                	 }
+		                 }else{
+		                	 return PARKING;
+		                 }
+		
+					default:
+						return empty;
+				}
+			} */
+			/* ------------------------------------------ */
+			// perpendicular parking maneuver
+			command PerpendicularStandard(){
+				command empty;
+				switch(currentManeuver){
+					
+					case NO_MANEUVER:
 						if(Status::IsStoped()){
 							currentManeuver = BACKWARDS_RIGHT;
+							return empty;
 						}else{
 							return Stop();
 						}
-						break;
 		
 					case BACKWARDS_RIGHT:
 						SetSpeed(slowSpeed * -1);
-
 						if(Status::EmergencyStop(back)){
 							currentManeuver = FORWARD_RIGHT;
 							return Stop();
 						}else{
 							if(Status::HasTurnedAngle(90)){
 								currentManeuver = BACKWARDS_LEFT;
+								return empty;
 							}else{
 								return Turn(right);
 							}
 						}
-						break;
 		
 		            case BACKWARDS:
-						
-		                if(HasTraveledDistance(1)){
+		                if(Status::HasTraveledDistance(1)){
 							currentManeuver = DONE;
 							return Stop();
 		                }else{
 							return Move(slowSpeed);
 						}
-		                break;
 		
 					default:
 						return empty;
 				}
 			}
-		} // Parking
+			/* ------------------------------------------ */
+		//} // Parking
 	} // Maneuver
 }
 

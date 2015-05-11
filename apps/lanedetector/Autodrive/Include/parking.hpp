@@ -3,6 +3,7 @@
 #include <math.h>
 #include "imageprocessor/command.hpp"
 #include "sensordata.hpp"
+#include "maneuver.hpp"
 
 namespace Autodrive {
 
@@ -12,13 +13,16 @@ namespace Autodrive {
 		enum Procedure { NO_PROCEDURE, PARALLEL_STANDARD, PARALLEL_WIDE, PERPENDICULAR_STANDARD };
         Procedure parkingProcedure;
 		
+		int gapLength = 0;
+		int gapStart = 0;
+		
 		// measure the length of a gap
 	    // TODO: make it work no matter if it starts next to an obstacle or not
 	    int GetGapLength(){
 	        if(SensorData::irFrontRight < 0){
-				gapLength = traveledPath - gapStart;
+				gapLength = SensorData::encoderDistance() - gapStart;
 			}else{
-				gapStart = traveledPath;
+				gapStart = SensorData::encoderDistance();
 			}
 	        return gapLength;
 	    }
@@ -40,29 +44,23 @@ namespace Autodrive {
 			}
 		}
 		
-		void Park(){
+		command Park(){
             cout << "PARKING" << endl;
+			command cmd; // so ugly!
             
             switch (parkingProcedure) {			                        // switch to the appropriate parking procedure
 	            
-                case PARALLEL_STANDARD:
-                	currentState = DETECT_GAP;							// toggle comment to test this parking procedure
-    				// currentState = ParallelStandard();
-    				break;
+                case PARALLEL_STANDARD:						
+    				return Maneuver::ParallelStandard();
                     
     			case PARALLEL_WIDE:
-    				currentState = DETECT_GAP;
-    				//currentState = ParallelWide();
-    				cout << "parallel wide" << endl;
-    				break;
-                    
+    				return cmd; //Maneuver::ParallelWide();
+    				
     			case PERPENDICULAR_STANDARD:
-    				currentState = PerpendicularStandard();
-    				cout << "perpendicular" << endl;
-    				break;
+    				return Maneuver::PerpendicularStandard();
                     
     			default:
-    				break;
+    				return cmd;
             }
 	    }													
 	} // Parking

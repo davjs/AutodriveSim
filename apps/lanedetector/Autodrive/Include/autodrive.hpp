@@ -1,5 +1,6 @@
 #pragma once
 #include "sensordata.hpp"
+#include "parking.hpp"
 #include "imageprocessor/imageprocessor.hpp"
 
 namespace Autodrive
@@ -35,7 +36,7 @@ namespace Autodrive
 
     void reset()
     {
-        // status = SEARCHING_FOR_LANES;
+        //status = SEARCHING_FOR_LANES;
         status = DETECTING_GAP;
     }
 
@@ -56,17 +57,18 @@ namespace Autodrive
             case Autodrive::FOLLOWING_LANES:
                 lastCommand = Autodrive::imageProcessor::continue_processing(*Autodrive::SensorData::image);
                 break;
+                
             // debug only!    
             case Autodrive::DETECTING_GAP:
-                Autodrive::Parking::SetParkingProcedure(GetGapLength());
-                if(Autodrive:Parking::parkingProcedure != Autodrive::Parking::NO_PROCEDURE){
+                Parking::SetParkingProcedure(Parking::GetGapLength());
+                if(Parking::parkingProcedure == Parking::PERPENDICULAR_STANDARD){ // select parking procedure
                     status = PARKING;
                 }
                 break;
             // -----------
             case Autodrive::PARKING:
-                Autodrive::Park();
-                break;
+                lastCommand = Parking::Park();
+                break; 
                 
             case Autodrive::UNKNOWN:
                 /*
