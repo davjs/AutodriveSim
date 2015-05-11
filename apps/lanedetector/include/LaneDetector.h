@@ -24,6 +24,9 @@
 #include "core/SharedPointer.h"
 #include "core/base/ConferenceClientModule.h"
 #include "core/wrapper/SharedMemory.h"
+#include "core/data/control/VehicleControl.h"
+
+using namespace core::data::control;
 
 namespace msv {
 
@@ -86,6 +89,11 @@ namespace msv {
 	        virtual void tearDown();
 
             void processImage();
+            
+            // Create vehicle control data.
+            VehicleControl vc;
+            
+            void processParkingData();
     };
 
 } // msv

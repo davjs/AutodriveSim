@@ -50,22 +50,26 @@ namespace Autodrive
             case Autodrive::SEARCHING_FOR_LANES:
                 if (Autodrive::imageProcessor::init_processing(Autodrive::SensorData::image))
                 {
-                    lastCommand.setSpeed(62);
+                    lastCommand.setSpeed(2);
                     status = FOLLOWING_LANES;
                 }
                 break;
+                
             case Autodrive::FOLLOWING_LANES:
                 lastCommand = Autodrive::imageProcessor::continue_processing(*Autodrive::SensorData::image);
                 break;
                 
-            // debug only!    
+            // debug only! will be merged with lane following   
             case Autodrive::DETECTING_GAP:
                 Parking::SetParkingProcedure(Parking::GetGapLength());
                 if(Parking::parkingProcedure == Parking::PERPENDICULAR_STANDARD){ // select parking procedure
                     status = PARKING;
+                }else{
+                    lastCommand.setSpeed(2);
                 }
                 break;
             // -----------
+            
             case Autodrive::PARKING:
                 lastCommand = Parking::Park();
                 break; 
@@ -84,10 +88,4 @@ namespace Autodrive
                 break;
         }
     }
-
-
-
-
-
-
 }

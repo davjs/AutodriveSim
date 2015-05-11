@@ -17,7 +17,6 @@ namespace Autodrive {
 		int gapStart = 0;
 		
 		// measure the length of a gap
-	    // TODO: make it work no matter if it starts next to an obstacle or not
 	    int GetGapLength(){
 	        if(SensorData::irFrontRight < 0){
 				gapLength = SensorData::encoderDistance() - gapStart;
@@ -45,7 +44,7 @@ namespace Autodrive {
 		}
 		
 		command Park(){
-            cout << "PARKING" << endl;
+            std::cout << "PARKING" << std::endl;
 			command cmd; // so ugly!
             
             switch (parkingProcedure) {			                        // switch to the appropriate parking procedure

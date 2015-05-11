@@ -16,6 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+#include <stdio.h>
 
 #include <iostream>
 #include <opencv/cv.h>
@@ -32,6 +33,7 @@
 #include "core/data/image/SharedImage.h"
 #include "core/io/ContainerConference.h"
 #include "core/data/control/VehicleControl.h"
+#include "core/data/environment/VehicleData.h"
 #include "core/wrapper/SharedMemoryFactory.h"
 
 #include "tools/player/Player.h"
@@ -49,6 +51,7 @@ namespace msv {
     using namespace core::data;
     using namespace core::data::image;
     using namespace core::data::control;
+    using namespace core::data::environment;
     using namespace tools::player;
     using namespace cv;
 
@@ -62,6 +65,9 @@ namespace msv {
 
     void LaneDetector::setUp() {
 	    // This method will be call automatically _before_ running body().
+        
+        Autodrive::reset();
+        
 	    if (m_debug) {
 		    // Create an OpenCV-window.
 		    cvNamedWindow("WindowShowImage", CV_WINDOW_AUTOSIZE);
@@ -123,6 +129,58 @@ namespace msv {
 	    }
 	    return retVal;
     }
+    
+    // This is the "wrapper" for all the data excluding the image
+    void LaneDetector::processParkingData(){
+    /* ----------------------------------- Data ---------------------------- */
+        // Vehicle data
+        Container containerVehicleData = getKeyValueDataStore().get(Container::VEHICLEDATA);
+        VehicleData vd = containerVehicleData.getData<VehicleData> ();
+
+        // Sensor board data
+        Container containerSensorBoardData = getKeyValueDataStore().get(Container::USER_DATA_0);
+        SensorBoardData sbd = containerSensorBoardData.getData<SensorBoardData> ();
+
+        // Assigning the values of the sensors
+        Autodrive::SensorData::irFrontRight = sbd.getMapOfDistances()[0]*10;
+        Autodrive::SensorData::irRear = sbd.getMapOfDistances()[1]*10;
+        Autodrive::SensorData::irRearRight = sbd.getMapOfDistances()[2]*10;
+        Autodrive::SensorData::usFront = sbd.getMapOfDistances()[3]*10;
+        Autodrive::SensorData::usFrontRight = sbd.getMapOfDistances()[4]*10;
+        Autodrive::SensorData::usRearRight = sbd.getMapOfDistances()[5]*10;
+
+        // Assigning the values of the vehicle
+        Autodrive::SensorData::encoderPulses = vd.getAbsTraveledPath();
+        Autodrive::SensorData::currentAngle = vd.getHeading() * Constants::RAD2DEG;
+    /* ---------------------------------------------------------------------- */
+    /* ----------------------------------- Debug ---------------------------- */
+        // sensor data
+        std::cerr << "Distance front right infrared '" << Autodrive::SensorData::irFrontRight << "'" << std::endl;
+        std::cerr << "Distance rear infrared '" << Autodrive::SensorData::irRear << "'" << std::endl;
+        std::cerr << "Distance front ultrasonic '" << Autodrive::SensorData::usFront << "'" << std::endl;
+        std::cerr << "Distance front right ultrasonic '" << Autodrive::SensorData::usFrontRight << "'" << std::endl;
+        //std::cerr << "Gap length '" << Autodrive::Parking::gapLength << "'" << std::endl;
+
+        // vehicle data
+        std::cerr << "speed: "<< Autodrive::getSpeed() << std::endl;
+        std::cerr << "Heading '" << Autodrive::SensorData::currentAngle << "'" << std::endl;
+        //std::cerr << "Heading Start '" << Autodrive::Parking::headingStart << "'" << std::endl;
+    /* ---------------------------------------------------------------------- */
+    /* ------------------------- Vehicle Control ---------------------------- */
+        // Run autodrive
+        Autodrive::drive(); 
+        
+        vc.setSpeed(Autodrive::getSpeed());
+        std::cout << "speed: "<< Autodrive::getSpeed() << std::endl;
+        vc.setSteeringWheelAngle(Autodrive::getAngle());
+       
+        // Create container for finally sending the data
+        Container c(Container::VEHICLECONTROL, vc);
+
+        // Send container (always)
+        getConference().send(c); 
+    /* ---------------------------------------------------------------------- */                                               
+    }
 
     // You should start your work in this method.
     void LaneDetector::processImage() {
@@ -142,8 +200,7 @@ namespace msv {
         }
         
         if(Autodrive::speedChanged()|| Autodrive::angleChanged()){//Only send packets when nescecary
-            // Create vehicle control data.
-            VehicleControl vc;
+            
             // With setSpeed you can set a desired speed for the vehicle in the range of -2.0 (backwards) .. 0 (stop) .. +2.0 (forwards)
             if(Autodrive::speedChanged())
                 vc.setSpeed(Autodrive::getSpeed());
@@ -204,8 +261,9 @@ namespace msv {
 
 		    // Process the read image.
 		    if (true == has_next_frame) {
-			    processImage();
+			    //processImage();
 		    }
+            processParkingData();
 	    }
 
         OPENDAVINCI_CORE_DELETE_POINTER(player);
