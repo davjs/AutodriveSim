@@ -24,68 +24,47 @@ namespace Autodrive {
 	    }
 	
 	    // defines the procedure to engage depending on the size of a  gap
-		Procedure GetParkingProcedure(int length) {
+		void SetParkingProcedure(int length) {
 	
 	        // return the appropriate parking procedure
 			if (SensorData::usFrontRight < 0) {		
-				return PARALLEL_WIDE;
+				parkingProcedure = PARALLEL_WIDE;
 			} else {
 				if (length > 6 && SensorData::irRearRight > 0) {		
-					return PARALLEL_STANDARD;
+					parkingProcedure = PARALLEL_STANDARD;
 				} else if (length > 3 && length < 6 && SensorData::irRearRight > 0) {
-					return PERPENDICULAR_STANDARD;
+					parkingProcedure = PERPENDICULAR_STANDARD;
 				} else {
-					return NO_PROCEDURE;
+					parkingProcedure = NO_PROCEDURE;
 				}
 			}
 		}
 		
-		void Park(State currentState){
-			
-			 	switch(currentState){
-	                
-	                case DETECT_GAP:                                                // if the car is supposed to park
-	                    cout << "MOVE_FORWARD" << endl;
-	                    parkingProcedure = GetParkingProcedure(GetGapLength());     // save a procedure depending on the size of a gap
-	                    
-	                    // exit state
-	                    if(parkingProcedure != NO_PROCEDURE){                        // if we found a suitable parking spot
-	                        currentState = PARKING;   
-	                    }
-	                    break;
-	                    
-	                case PARKING:
-	                    cout << "PARKING" << endl;
-	                    
-	                    switch (parkingProcedure) {			                        // switch to the appropriate parking procedure
-				            
-	                        case PARALLEL_STANDARD:
-	                        	currentState = DETECT_GAP;							// toggle comment to test this parking procedure
-	            				// currentState = ParallelStandard();
-	            				break;
-	                            
-	            			case PARALLEL_WIDE:
-	            				currentState = DETECT_GAP;
-	            				//currentState = ParallelWide();
-	            				cout << "parallel wide" << endl;
-	            				break;
-	                            
-	            			case PERPENDICULAR_STANDARD:
-	            				currentState = PerpendicularStandard();
-	            				cout << "perpendicular" << endl;
-	            				break;
-	                            
-	            			default:
-	            				break;
-			            }
-	                    break;
-	                    
-	                case DONE:
-	                    cout << "DONE" << endl;
-	                    break;
-	    		}													
-		}
-
+		void Park(){
+            cout << "PARKING" << endl;
+            
+            switch (parkingProcedure) {			                        // switch to the appropriate parking procedure
+	            
+                case PARALLEL_STANDARD:
+                	currentState = DETECT_GAP;							// toggle comment to test this parking procedure
+    				// currentState = ParallelStandard();
+    				break;
+                    
+    			case PARALLEL_WIDE:
+    				currentState = DETECT_GAP;
+    				//currentState = ParallelWide();
+    				cout << "parallel wide" << endl;
+    				break;
+                    
+    			case PERPENDICULAR_STANDARD:
+    				currentState = PerpendicularStandard();
+    				cout << "perpendicular" << endl;
+    				break;
+                    
+    			default:
+    				break;
+            }
+	    }													
 	} // Parking
 }
 
