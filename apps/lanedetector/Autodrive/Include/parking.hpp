@@ -35,7 +35,6 @@ namespace Autodrive {
 				if (gapLength > 6 && SensorData::irRearRight > 0) {		
 					parkingProcedure = PARALLEL_STANDARD;
 				} else if (gapLength > 3 && gapLength < 7 && SensorData::irRearRight > 0) {
-					std::cout << "values correct" << std::endl;
 					parkingProcedure = PERPENDICULAR_STANDARD;
 				} else {
 					parkingProcedure = NO_PROCEDURE;
