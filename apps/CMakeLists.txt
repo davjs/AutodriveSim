@@ -3,8 +3,6 @@
 IF((NOT "${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin") AND (NOT "${CMAKE_SYSTEM_NAME}" STREQUAL "FreeBSD") AND (NOT WIN32) AND (NOT "${CMAKE_SYSTEM_NAME}" STREQUAL "NetBSD") AND (NOT "${CMAKE_SYSTEM_NAME}" STREQUAL "OpenBSD"))
     # Application for receiving data from hesperia or a USB camera.
     ADD_SUBDIRECTORY (lanedetector)
-
-    ADD_SUBDIRECTORY (driver)
 ENDIF()
 
 # Special target to simplify the rsync command.
