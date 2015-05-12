@@ -12,6 +12,14 @@ git clone git@github.com:davidkron/AutodriveSim.git
 ```
 ####Install OpenCV
 Follow [this installation guide](http://docs.opencv.org/3.0-last-rst/doc/tutorials/introduction/linux_install/linux_install.html).
+#####Register OpenCV Libraries
+```
+sudo echo "/usr/local/lib" >> /etc/ld.so.conf.d/opencv.conf
+sudo ldconfig
+sudo echo "PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig" >> /etc/bash.bashrc
+sudo echo "export PKG_CONFIG_PATH" >> /etc/bash.bashrc
+```
+**\*IMPORTANT:\*** Restart computer or logout&login for OpenCV to work properly.
 ####Compile and Install OpenDaVINCI
 Create installation directory for the OpenDaVINCI code (this repository's code).
 ```
