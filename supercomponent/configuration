@@ -17,7 +17,16 @@
 #
 global.car = Scenarios/Models/FordEscape.objx
 #global.car = Scenarios/Models/RedRocketCar.objx
-global.scenario = file://Scenarios/NoObstacles_StopLines.scnx
+#global.scenario = file://Scenarios/NoObstacles_StopLines.scnx
+
+#parking scenarios
+global.scenario = file://Scenarios/SEM_Parking_Perpendicular_Simple.scnx
+#global.scenario = file://Scenarios/SEM_Parking_Perpendicular_Advanced.scnx
+#global.scenario = file://Scenarios/SEM_Parking_Parallel_Simple.scnx
+#global.scenario = file://Scenarios/SEM_Parking_Parallel_Advanced.scnx
+#global.scenario = file://Scenarios/SEM_Test_Track.scnx
+#global.scenario = file://Scenarios/Parking-sideways.scnx
+
 global.showGrid = 0
 
 # The following attributes define the buffer sizes for recording and replaying.
