@@ -17,25 +17,25 @@ namespace Autodrive {
 		int gapStart = 0;
 		
 		// measure the length of a gap
-	    int GetGapLength(){
-	        if(SensorData::irFrontRight < 0){
+	    void SetGapLength(){
+	        if(SensorData::irRearRight < 0){
 				gapLength = SensorData::encoderDistance() - gapStart;
 			}else{
 				gapStart = SensorData::encoderDistance();
 			}
-	        return gapLength;
 	    }
 	
 	    // defines the procedure to engage depending on the size of a  gap
-		void SetParkingProcedure(int length) {
-	
+		void SetParkingProcedure() {
+			std::cout << gapLength << std::endl;						
 	        // return the appropriate parking procedure
 			if (SensorData::usFrontRight < 0) {		
 				parkingProcedure = PARALLEL_WIDE;
 			} else {
-				if (length > 6 && SensorData::irRearRight > 0) {		
+				if (gapLength > 6 && SensorData::irRearRight > 0) {		
 					parkingProcedure = PARALLEL_STANDARD;
-				} else if (length > 3 && length < 6 && SensorData::irRearRight > 0) {
+				} else if (gapLength > 3 && gapLength < 7 && SensorData::irRearRight > 0) {
+					std::cout << "values correct" << std::endl;
 					parkingProcedure = PERPENDICULAR_STANDARD;
 				} else {
 					parkingProcedure = NO_PROCEDURE;
@@ -49,10 +49,12 @@ namespace Autodrive {
             
             switch (parkingProcedure) {			                        // switch to the appropriate parking procedure
 	            
-                case PARALLEL_STANDARD:						
+                case PARALLEL_STANDARD:
+					std::cout << "PARALLEL_STANDARD" << std::endl;						
     				return Maneuver::ParallelStandard();
                     
     			case PARALLEL_WIDE:
+					std::cout << "PARALLEL_WIDE" << std::endl;
     				return cmd; //Maneuver::ParallelWide();
     				
     			case PERPENDICULAR_STANDARD:

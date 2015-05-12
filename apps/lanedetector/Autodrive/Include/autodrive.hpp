@@ -61,7 +61,8 @@ namespace Autodrive
                 
             // debug only! will be merged with lane following   
             case Autodrive::DETECTING_GAP:
-                Parking::SetParkingProcedure(Parking::GetGapLength());
+                Parking::SetGapLength();
+                Parking::SetParkingProcedure();
                 if(Parking::parkingProcedure == Parking::PERPENDICULAR_STANDARD){ // select parking procedure
                     status = PARKING;
                 }else{

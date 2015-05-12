@@ -132,6 +132,10 @@ namespace msv {
     
     // This is the "wrapper" for all the data excluding the image
     void LaneDetector::processParkingData(){
+        
+        // Run autodrive
+        Autodrive::drive();
+        
     /* ----------------------------------- Data ---------------------------- */
         // Vehicle data
         Container containerVehicleData = getKeyValueDataStore().get(Container::VEHICLEDATA);
@@ -142,12 +146,12 @@ namespace msv {
         SensorBoardData sbd = containerSensorBoardData.getData<SensorBoardData> ();
 
         // Assigning the values of the sensors
-        Autodrive::SensorData::irFrontRight = sbd.getMapOfDistances()[0]*10;
-        Autodrive::SensorData::irRear = sbd.getMapOfDistances()[1]*10;
-        Autodrive::SensorData::irRearRight = sbd.getMapOfDistances()[2]*10;
-        Autodrive::SensorData::usFront = sbd.getMapOfDistances()[3]*10;
-        Autodrive::SensorData::usFrontRight = sbd.getMapOfDistances()[4]*10;
-        Autodrive::SensorData::usRearRight = sbd.getMapOfDistances()[5]*10;
+        Autodrive::SensorData::irFrontRight = sbd.getMapOfDistances()[0];
+        Autodrive::SensorData::irRear = sbd.getMapOfDistances()[1];
+        Autodrive::SensorData::irRearRight = sbd.getMapOfDistances()[2];
+        Autodrive::SensorData::usFront = sbd.getMapOfDistances()[3];
+        Autodrive::SensorData::usFrontRight = sbd.getMapOfDistances()[4];
+        Autodrive::SensorData::usRearRight = sbd.getMapOfDistances()[5];
 
         // Assigning the values of the vehicle
         Autodrive::SensorData::encoderPulses = vd.getAbsTraveledPath();
@@ -156,22 +160,21 @@ namespace msv {
     /* ----------------------------------- Debug ---------------------------- */
         // sensor data
         std::cerr << "Distance front right infrared '" << Autodrive::SensorData::irFrontRight << "'" << std::endl;
-        std::cerr << "Distance rear infrared '" << Autodrive::SensorData::irRear << "'" << std::endl;
-        std::cerr << "Distance front ultrasonic '" << Autodrive::SensorData::usFront << "'" << std::endl;
-        std::cerr << "Distance front right ultrasonic '" << Autodrive::SensorData::usFrontRight << "'" << std::endl;
+        std::cerr << "Distance rear rigth infrared '" << Autodrive::SensorData::irRearRight << "'" << std::endl;
+        //std::cerr << "Distance front ultrasonic '" << Autodrive::SensorData::usFront << "'" << std::endl;
+        //std::cerr << "Distance front right ultrasonic '" << Autodrive::SensorData::usFrontRight << "'" << std::endl;
         //std::cerr << "Gap length '" << Autodrive::Parking::gapLength << "'" << std::endl;
 
         // vehicle data
-        std::cerr << "speed: "<< Autodrive::getSpeed() << std::endl;
-        std::cerr << "Heading '" << Autodrive::SensorData::currentAngle << "'" << std::endl;
+        //std::cerr << "speed: "<< Autodrive::getSpeed() << std::endl;
+        //std::cerr << "Heading '" << Autodrive::SensorData::currentAngle << "'" << std::endl;
         //std::cerr << "Heading Start '" << Autodrive::Parking::headingStart << "'" << std::endl;
+        //std::cout << "speed: "<< Autodrive::getSpeed() << std::endl;
     /* ---------------------------------------------------------------------- */
     /* ------------------------- Vehicle Control ---------------------------- */
-        // Run autodrive
-        Autodrive::drive(); 
-        
+         
         vc.setSpeed(Autodrive::getSpeed());
-        std::cout << "speed: "<< Autodrive::getSpeed() << std::endl;
+       
         vc.setSteeringWheelAngle(Autodrive::getAngle());
        
         // Create container for finally sending the data

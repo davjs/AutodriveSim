@@ -24,6 +24,9 @@ namespace Autodrive {
 		// maneuvers
         enum Maneuver { NO_MANEUVER, FORWARDS, BACKWARDS, FORWARD_RIGHT, BACKWARDS_RIGHT, FORWARD_LEFT, BACKWARDS_LEFT, DONE };
         Maneuver currentManeuver;
+		
+		//added flag
+		bool init = false;
 
 		// stops the car
 		command Stop() {
@@ -58,7 +61,15 @@ namespace Autodrive {
 
 		command Turn(direction direction) {
 			command cmd;
-			cmd.setSpeed(slowSpeed);
+			if (direction == right) {
+				cmd.setAngle(25);
+			} else {
+				cmd.setAngle(-25);
+			}
+			return cmd;
+		}
+		
+		command Turn(command cmd, direction direction) {
 			if (direction == right) {
 				cmd.setAngle(25);
 			} else {
@@ -238,32 +249,44 @@ namespace Autodrive {
 			/* ------------------------------------------ */
 			// perpendicular parking maneuver
 			command PerpendicularStandard(){
-				command empty;
+				command cmd;
+				std::cout << "PERPENDICULAR_STANDARD" << std::endl;
+				
+				if(!init){
+					currentManeuver = NO_MANEUVER;
+					init = true;
+				}
+				
 				switch(currentManeuver){
 					
 					case NO_MANEUVER:
+						std::cout << "NO_MANEUVER" << std::endl;
 						if(Status::IsStoped()){
 							currentManeuver = BACKWARDS_RIGHT;
-							return empty;
+							return command();
 						}else{
 							return Stop();
 						}
 		
 					case BACKWARDS_RIGHT:
-						SetSpeed(slowSpeed * -1);
-						if(Status::EmergencyStop(back)){
+						std::cout << "BACKWARDS_RIGHT" << std::endl;
+						cmd.setSpeed(slowSpeed * -1);
+						if(Status::HasTurnedAngle(90)){
+							currentManeuver = DONE;
+							return command();
+						}else{
+							return Turn(cmd,right);
+						}
+						// return cmd;
+						/*if(Status::EmergencyStop(back)){
 							currentManeuver = FORWARD_RIGHT;
 							return Stop();
 						}else{
-							if(Status::HasTurnedAngle(90)){
-								currentManeuver = BACKWARDS_LEFT;
-								return empty;
-							}else{
-								return Turn(right);
-							}
-						}
+							
+						}*/
 		
 		            case BACKWARDS:
+						std::cout << "BACKWARDS" << std::endl;
 		                if(Status::HasTraveledDistance(1)){
 							currentManeuver = DONE;
 							return Stop();
@@ -272,7 +295,8 @@ namespace Autodrive {
 						}
 		
 					default:
-						return empty;
+						std::cout << "DONE" << std::endl;
+						return command();
 				}
 			}
 			/* ------------------------------------------ */
