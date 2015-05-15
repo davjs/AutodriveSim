@@ -17,9 +17,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include "LaneDetector.h"
+#include "AutodriveSim.hpp"
 
 int32_t main(int32_t argc, char **argv) {
-    msv::LaneDetector ld(argc, argv);
-    return ld.runModule();
+    msv::AutodriveSim autoSim(argc, argv);
+    return autoSim.runModule();
 }

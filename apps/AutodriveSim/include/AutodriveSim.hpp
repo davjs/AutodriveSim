@@ -17,13 +17,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#ifndef LANEDETECTOR_H_
-#define LANEDETECTOR_H_
+#pragma once
 
 #include <opencv/cv.h>
 #include "core/SharedPointer.h"
 #include "core/base/ConferenceClientModule.h"
 #include "core/wrapper/SharedMemory.h"
+#include "core/data/control/VehicleControl.h"
+
+using namespace core::data::control;
 
 namespace msv {
 
@@ -32,7 +34,7 @@ namespace msv {
     /**
      * This class is an exemplary skeleton for processing video data.
      */
-    class LaneDetector: public core::base::ConferenceClientModule {
+    class AutodriveSim: public core::base::ConferenceClientModule {
         private:
 	        /**
 	         * "Forbidden" copy constructor. Goal: The compiler should warn
@@ -41,7 +43,7 @@ namespace msv {
 	         *
 	         * @param obj Reference to an object of this class.
 	         */
-	        LaneDetector(const LaneDetector &/*obj*/);
+	        AutodriveSim(const AutodriveSim &/*obj*/);
 
 	        /**
 	         * "Forbidden" assignment operator. Goal: The compiler should warn
@@ -51,7 +53,7 @@ namespace msv {
 	         * @param obj Reference to an object of this class.
 	         * @return Reference to this instance.
 	         */
-	        LaneDetector& operator=(const LaneDetector &/*obj*/);
+	        AutodriveSim& operator=(const AutodriveSim &/*obj*/);
 
         public:
 	        /**
@@ -60,9 +62,9 @@ namespace msv {
 	         * @param argc Number of command line arguments.
 	         * @param argv Command line arguments.
 	         */
-	        LaneDetector(const int32_t &argc, char **argv);
+	        AutodriveSim(const int32_t &argc, char **argv);
 
-	        virtual ~LaneDetector();
+	        virtual ~AutodriveSim();
 
 	        core::base::ModuleState::MODULE_EXITCODE body();
 
@@ -85,9 +87,13 @@ namespace msv {
 
 	        virtual void tearDown();
 
-            void processImage();
+            void drive();
+            void updateAutodriveData();
+            
+            // Create vehicle control data.
+            VehicleControl vc;
+            
+            void processParkingData();
     };
 
 } // msv
-
-#endif /*LANEDETECTOR_H_*/

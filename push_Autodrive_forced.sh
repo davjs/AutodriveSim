@@ -1,1 +1,1 @@
-git push Autodrive `git subtree split --prefix=apps/lanedetector/Autodrive/ master`:master --force
+git push Autodrive `git subtree split --prefix=apps/AutodriveSim/Autodrive/ master`:master --force
