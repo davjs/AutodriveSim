@@ -54,24 +54,14 @@ namespace msv {
 
     void AutodriveSim::setUp() {
 	    // This method will be call automatically _before_ running body().
-        
-        Autodrive::reset();
-        
-	    if (m_debug) {
-		    // Create an OpenCV-window.
-		    cvNamedWindow("WindowShowImage", CV_WINDOW_AUTOSIZE);
-		    cvMoveWindow("WindowShowImage", 300, 100);
-	    }
+
+        Autodrive::setStatus(Autodrive::DETECTING_GAP);
     }
 
     void AutodriveSim::tearDown() {
 	    // This method will be call automatically _after_ return from body().
 	    if (m_image != NULL) {
 		    cvReleaseImage(&m_image);
-	    }
-
-	    if (m_debug) {
-		    cvDestroyWindow("WindowShowImage");
 	    }
     }
 
@@ -129,8 +119,7 @@ namespace msv {
         cv::resize(copy,frame,cv::Size(640,480));
         if (m_debug) {
             if (m_image != NULL) {
-                imshow("w", frame);
-                cvWaitKey(10);
+                imshow("opencv_eye", frame);
             }
         }
         
