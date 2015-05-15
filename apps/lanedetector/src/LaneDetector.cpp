@@ -4,8 +4,8 @@
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ * as published by the Free Software Foundation; either ver_centr_startion 2
+ * of the License, or (at your option) any later ver_centr_startion.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,26 +20,18 @@
 #include <iostream>
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
-#include "opencv2/imgproc/imgproc.hpp"
-#include <opencv2/opencv.hpp>
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
 
 #include "core/macros.h"
 #include "core/base/KeyValueConfiguration.h"
-#include "core/data/Constants.h"
 #include "core/data/Container.h"
 #include "core/data/image/SharedImage.h"
 #include "core/io/ContainerConference.h"
-#include "core/data/control/VehicleControl.h"
 #include "core/wrapper/SharedMemoryFactory.h"
 
 #include "tools/player/Player.h"
 
 #include "GeneratedHeaders_Data.h"
 
-#define _DEBUG
-#include "../Autodrive/Include/autodrive.hpp"
 #include "LaneDetector.h"
 
 namespace msv {
@@ -48,7 +40,6 @@ namespace msv {
     using namespace core::base;
     using namespace core::data;
     using namespace core::data::image;
-    using namespace core::data::control;
     using namespace tools::player;
     using namespace cv;
 
@@ -127,35 +118,178 @@ namespace msv {
     // You should start your work in this method.
     void LaneDetector::processImage() {
         // Example: Show the image.
+    	
+    	//draw a line       
+    	        int width = m_image -> width;
+    	        int height = m_image -> height;
+    	        int step  = m_image ->widthStep;
+    	        unsigned char* image = (unsigned char*)m_image->imageData;
+    	        int sample_near = 60; // define near vision
+    	        int sample_mid = 150; //define mid vision
+    	        int sample_mid2 = 90; //define mid vision
+    	        int sample_mid3 = 120; //define mid vision
+    	        int sample_far = 240; // define further vision
+    	        int desired_right_near =243; //220
+    	        int desired_right_far =75; 
+    	        double k = 0.12; //portion control 0.2
+    	        int max_left = -24;
+    	        int max_right = 24;// max turning steering 
+    	        //cout << " width:"<< width<<endl;
+    	        //cout << " height:"<< height<<endl;
+    	        CvScalar red = CV_RGB(250,0,0);
+    	        CvScalar green = CV_RGB(0,250,0);
+    	        CvScalar blue = CV_RGB(0,0,250);
+    	        int thickness = 1;
+    	        int connectivity = 8;
+    	        bool near_lost = 0;// near vision lost
+    	        bool far_lost = 0;//  far vision lost
+    	        bool near_lost_left = 0; // near vision lost (left)
+    	        bool mid_lost_left = 0;
+    	        bool mid2_lost_left = 0;
+    	        bool mid3_lost_left = 0;
+    	        bool intersection_protect = 0;
+    	        
+    	        CvPoint ver_centr_start = cvPoint(width/2,height);
+    	        CvPoint ver_centr_end = cvPoint(width/2,0);
+    	        CvPoint near_sample_start = cvPoint(width/2,height- sample_near);
+    	        CvPoint mid_sample_start = cvPoint(width/2,height- sample_mid);
+    	        CvPoint mid2_sample_start = cvPoint(width/2,height- sample_mid2);
+    	        CvPoint mid3_sample_start = cvPoint(width/2,height- sample_mid3);
+    	        CvPoint near_sample_end ;
+    	        CvPoint mid_sample_left_end ;
+    	        CvPoint mid2_sample_left_end ;
+    	        CvPoint mid3_sample_left_end ;
+    	        CvPoint near_sample_left_end ;
+    	        CvPoint far_sample_start = cvPoint(width/2,height- sample_far);
+    	        CvPoint far_sample_end ;
+    	       
+    	        
+       
+
         //TODO: Start here.
-        Mat frame = cv::cvarrToMat(m_image);
-        cv::Mat copy;
-        cv::resize(frame,copy,cv::Size(240,135));
-        Autodrive::SensorData::image = &copy;
-        Autodrive::drive();
-        cv::resize(copy,frame,cv::Size(640,480));
-        if (m_debug) {
-            if (m_image != NULL) {
-                imshow("w", frame);
-                cvWaitKey(10);
-            }
+        
+        int right_near = 0;
+        int right_far = 0;
+        int left_near=0;
+        int left_mid=0;
+        int left_mid2=0;
+        int left_mid3=0;
+        // 1. Do something with the image m_image here, for example: find lane marking features, optimize quality, ...
+        // find right distance 
+        //  I (x, y) ~ ((unsigned char*) (img-> imageData + img-> widthStep * y)) [x]        3 chanel     
+        double left_range = 0.4; // (0,0.5)
+        while((image + step * (height- sample_near)) [(width/2+right_near)*3]==0 && right_near < width/2 ){ right_near ++;} 
+        while((image + step * (height- sample_far)) [(width/2+right_far)*3]==0 && right_far < width/2 ) {right_far++; }
+        while((image + step * (height- sample_near)) [(width/2-left_near)*3]==0 && left_near < width*left_range+1 ){ left_near ++;}
+        while((image + step * (height- sample_mid)) [(width/2-left_mid)*3]==0 && left_mid < width*left_range +1 ){ left_mid ++;}
+        while((image + step * (height- sample_mid2)) [(width/2-left_mid2)*3]==0 && left_mid2 < width*left_range+1  ){ left_mid2 ++;}
+        while((image + step * (height- sample_mid3)) [(width/2-left_mid3)*3]==0 && left_mid3 < width*left_range +1 ){ left_mid3 ++;}
+        if (right_near >= width/2){ // near vision lost
+        	near_lost = 1;  	   
+        }
+        else {
+        	near_lost = 0; 
         }
         
-        if(Autodrive::speedChanged()|| Autodrive::angleChanged()){//Only send packets when nescecary
-            // Create vehicle control data.
-            VehicleControl vc;
-            // With setSpeed you can set a desired speed for the vehicle in the range of -2.0 (backwards) .. 0 (stop) .. +2.0 (forwards)
-            if(Autodrive::speedChanged())
-                vc.setSpeed(Autodrive::getSpeed());
-            else vc.setSpeed(10);
-            // With setSteeringWheelAngle, you can steer in the range of -26 (left) .. 0 (straight) .. +25 (right)
-            if(Autodrive::angleChanged())
-                vc.setSteeringWheelAngle(Autodrive::getAngle());
-            // Create container for finally sending the data.
-            Container c(Container::VEHICLECONTROL, vc);
-            // Send container.
-            getConference().send(c);
-        }
+        if (right_far >= width/4){ // far vision lost
+                	far_lost = 1;  	   
+                }
+                else {
+                	far_lost = 0; 
+                }
+        
+        if (left_near  >= width*left_range){ // near vision lost left
+        			near_lost_left = 1;  	   
+                  }
+                 else {
+                        	near_lost_left = 0; 
+                  }
+        if (left_mid  >= width*left_range){ // mid vision lost left
+               	mid_lost_left = 1;  	   
+                }
+                else {
+                mid_lost_left = 0; 
+                }
+        if (left_mid2  >= width*left_range){ // mid vision lost left
+                      	mid2_lost_left = 1;  	   
+                       }
+                       else {
+                       mid2_lost_left = 0; 
+                       }
+        if (left_mid3  >= width*left_range){ // mid vision lost left
+                              	mid3_lost_left = 1;  	   
+                               }
+                               else {
+                               mid3_lost_left = 0; 
+                               }
+        
+        // state machine
+        
+       if (near_lost){
+    	   cout << "near lost"<<endl;
+       }
+       else{
+    	   cout << "right_near:"<< right_near<<endl;
+       }
+       
+       if (far_lost){
+          	   cout << "far lost"<<endl;
+             }
+       else{
+            	 cout << "right_far:"<< right_far<<endl;
+            }
+       near_sample_end = cvPoint(width/2 + right_near ,height- sample_near);
+       far_sample_end = cvPoint(width/2 + right_far ,height- sample_far);
+       near_sample_left_end = cvPoint(width/2 - left_near ,height- sample_near);
+       mid_sample_left_end = cvPoint(width/2 - left_mid ,height- sample_mid);
+       mid2_sample_left_end = cvPoint(width/2 - left_mid2 ,height- sample_mid2);
+       mid3_sample_left_end = cvPoint(width/2 - left_mid3 ,height- sample_mid3);
+       if (m_debug) {
+                  if (m_image != NULL) {
+                	  cvLine(m_image,ver_centr_start,ver_centr_end,red,thickness,connectivity);
+                	  cvLine(m_image,near_sample_start,near_sample_end,green,thickness,connectivity);
+                	  cvLine(m_image,far_sample_start,far_sample_end,green,thickness,connectivity);
+                	  cvLine(m_image,near_sample_start,near_sample_left_end ,blue,thickness,connectivity);
+                	  cvLine(m_image,mid_sample_start,mid_sample_left_end ,blue,thickness,connectivity);
+                	  cvLine(m_image,mid2_sample_start,mid2_sample_left_end ,blue,thickness,connectivity);
+                	  cvLine(m_image,mid3_sample_start,mid3_sample_left_end ,blue,thickness,connectivity);
+                      cvShowImage("WindowShowImage", m_image);
+                      cvWaitKey(10);
+                  }
+              }
+       
+        // 2. Calculate desired steering commands from your image features to be processed by driver.
+       double difference;
+       if (!near_lost){
+    	   difference = (  right_near-desired_right_near) *k ;
+    	   intersection_protect = 0;
+    	   
+       } 
+       else{   	 // near lost  
+    	   if (!(near_lost_left&& mid_lost_left &&mid2_lost_left&&mid3_lost_left)&& !intersection_protect){ 				//intersection mode !far_lost && 
+    		   difference = max_right;
+    		   
+    	   }
+    	   else{
+    		   
+    		   difference = (  right_far-desired_right_far) *k ; 
+    		   intersection_protect = 1;
+    	   }
+       }
+       
+       if (difference < max_left) difference = max_left;
+       else if ( difference > max_right) difference = max_right;
+        
+        
+        
+        // Here, you see an example of how to send the data structure SteeringData to the ContainerConference. This data structure will be received by all running components. In our example, it will be processed by Driver. To change this data structure, have a look at Data.odvd in the root folder of this source.
+        SteeringData sd;
+        sd.setExampleData(difference);
+
+        // Create container for finally sending the data.
+        Container c(Container::USER_DATA_1, sd);
+        // Send container.
+        getConference().send(c);
     }
 
     // This method will do the main data processing job.
@@ -182,7 +316,7 @@ namespace msv {
         player = new Player(url, AUTO_REWIND, MEMORY_SEGMENT_SIZE, NUMBER_OF_SEGMENTS);
 */
 
-        // "Working horse."
+        
 	    while (getModuleState() == ModuleState::RUNNING) {
 		    bool has_next_frame = false;
 
@@ -214,4 +348,5 @@ namespace msv {
     }
 
 } // msv
+
 
