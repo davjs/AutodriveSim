@@ -1,6 +1,6 @@
 /**
- * OpenDaVINCI - Portable middleware for distributed components.
- * Copyright (C) 2008 - 2015 Christian Berger, Bernhard Rumpe 
+ * lanedetector - Sample application for detecting lane markings.
+ * Copyright (C) 2012 - 2015 Christian Berger
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,9 +17,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include "Parking.h"
+#include "AutodriveSim.hpp"
 
 int32_t main(int32_t argc, char **argv) {
-    msv::Parking parking(argc, argv);
-    return parking.runModule();
+    msv::AutodriveSim autoSim(argc, argv);
+    return autoSim.runModule();
 }

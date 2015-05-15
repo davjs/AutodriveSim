@@ -33,6 +33,7 @@ namespace Autodrive {
 			command cmd;
 			cmd.setSpeed(0);
 			cmd.setAngle(0);
+			std::cout << "STOPPING" << std::endl;
 			return cmd;
 		}
 
@@ -273,7 +274,7 @@ namespace Autodrive {
 						cmd.setSpeed(slowSpeed * -1);
 						if(Status::HasTurnedAngle(90)){
 							currentManeuver = DONE;
-							return command();
+							return Stop();
 						}else{
 							return Turn(cmd,right);
 						}

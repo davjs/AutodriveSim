@@ -60,6 +60,7 @@ namespace Autodrive {
     				return Maneuver::PerpendicularStandard();
                     
     			default:
+    			    cmd.setSpeed(0);
     				return cmd;
             }
 	    }													

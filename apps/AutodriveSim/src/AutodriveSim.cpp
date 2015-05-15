@@ -1,20 +1,9 @@
 /**
- * lanedetector - Sample application for detecting lane markings.
- * Copyright (C) 2012 - 2015 Christian Berger
+ * 
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ *  - - - - -- - -  AutodriveSim , Autodrive wrapper for opendavinci
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 #include <stdio.h>
 
@@ -42,7 +31,7 @@
 
 #define _DEBUG
 #include "../Autodrive/Include/autodrive.hpp"
-#include "LaneDetector.h"
+#include "AutodriveSim.hpp"
 
 namespace msv {
 
@@ -55,15 +44,15 @@ namespace msv {
     using namespace tools::player;
     using namespace cv;
 
-    LaneDetector::LaneDetector(const int32_t &argc, char **argv) : ConferenceClientModule(argc, argv, "lanedetector"),
+    AutodriveSim::AutodriveSim(const int32_t &argc, char **argv) : ConferenceClientModule(argc, argv, "AutodriveSim"),
         m_hasAttachedToSharedImageMemory(false),
         m_sharedImageMemory(),
         m_image(NULL),
         m_debug(false) {}
 
-    LaneDetector::~LaneDetector() {}
+    AutodriveSim::~AutodriveSim() {}
 
-    void LaneDetector::setUp() {
+    void AutodriveSim::setUp() {
 	    // This method will be call automatically _before_ running body().
         
         Autodrive::reset();
@@ -75,7 +64,7 @@ namespace msv {
 	    }
     }
 
-    void LaneDetector::tearDown() {
+    void AutodriveSim::tearDown() {
 	    // This method will be call automatically _after_ return from body().
 	    if (m_image != NULL) {
 		    cvReleaseImage(&m_image);
@@ -86,7 +75,7 @@ namespace msv {
 	    }
     }
 
-    bool LaneDetector::readSharedImage(Container &c) {
+    bool AutodriveSim::readSharedImage(Container &c) {
 	    bool retVal = false;
 
 	    if (c.getDataType() == Container::SHARED_IMAGE) {
@@ -130,13 +119,22 @@ namespace msv {
 	    return retVal;
     }
     
-    // This is the "wrapper" for all the data excluding the image
-    void LaneDetector::processParkingData(){
+    void AutodriveSim::updateAutodriveData(){
         
-        // Run autodrive
-        Autodrive::drive();
+        /*  ----- RESIZE AND DISPLAY IMAGE ----- */
+        Mat frame = cv::cvarrToMat(m_image);
+        cv::Mat copy;
+        cv::resize(frame,copy,cv::Size(240,135));
+        Autodrive::SensorData::image = &copy;
+        cv::resize(copy,frame,cv::Size(640,480));
+        if (m_debug) {
+            if (m_image != NULL) {
+                imshow("w", frame);
+                cvWaitKey(10);
+            }
+        }
         
-    /* ----------------------------------- Data ---------------------------- */
+        /* ----------------------------------- Data ---------------------------- */
         // Vehicle data
         Container containerVehicleData = getKeyValueDataStore().get(Container::VEHICLEDATA);
         VehicleData vd = containerVehicleData.getData<VehicleData> ();
@@ -156,7 +154,14 @@ namespace msv {
         // Assigning the values of the vehicle
         Autodrive::SensorData::encoderPulses = vd.getAbsTraveledPath();
         Autodrive::SensorData::currentAngle = vd.getHeading() * Constants::RAD2DEG;
-    /* ---------------------------------------------------------------------- */
+    /* ---------------------------------------------------------------------- */      
+    }
+
+    // You should start your work in this method.
+    void AutodriveSim::drive() {
+    
+    updateAutodriveData();
+        
     /* ----------------------------------- Debug ---------------------------- */
         // sensor data
         std::cerr << "Distance front right infrared '" << Autodrive::SensorData::irFrontRight << "'" << std::endl;
@@ -171,43 +176,17 @@ namespace msv {
         //std::cerr << "Heading Start '" << Autodrive::Parking::headingStart << "'" << std::endl;
         //std::cout << "speed: "<< Autodrive::getSpeed() << std::endl;
     /* ---------------------------------------------------------------------- */
+    
+        // Run autodrive
+        Autodrive::drive();
+    
     /* ------------------------- Vehicle Control ---------------------------- */
          
-        vc.setSpeed(Autodrive::getSpeed());
-       
-        vc.setSteeringWheelAngle(Autodrive::getAngle());
-       
-        // Create container for finally sending the data
-        Container c(Container::VEHICLECONTROL, vc);
-
-        // Send container (always)
-        getConference().send(c); 
-    /* ---------------------------------------------------------------------- */                                               
-    }
-
-    // You should start your work in this method.
-    void LaneDetector::processImage() {
-        // Example: Show the image.
-        //TODO: Start here.
-        Mat frame = cv::cvarrToMat(m_image);
-        cv::Mat copy;
-        cv::resize(frame,copy,cv::Size(240,135));
-        Autodrive::SensorData::image = &copy;
-        Autodrive::drive();
-        cv::resize(copy,frame,cv::Size(640,480));
-        if (m_debug) {
-            if (m_image != NULL) {
-                imshow("w", frame);
-                cvWaitKey(10);
-            }
-        }
-        
         if(Autodrive::speedChanged()|| Autodrive::angleChanged()){//Only send packets when nescecary
             
             // With setSpeed you can set a desired speed for the vehicle in the range of -2.0 (backwards) .. 0 (stop) .. +2.0 (forwards)
             if(Autodrive::speedChanged())
                 vc.setSpeed(Autodrive::getSpeed());
-            else vc.setSpeed(10);
             // With setSteeringWheelAngle, you can steer in the range of -26 (left) .. 0 (straight) .. +25 (right)
             if(Autodrive::angleChanged())
                 vc.setSteeringWheelAngle(Autodrive::getAngle());
@@ -220,10 +199,10 @@ namespace msv {
 
     // This method will do the main data processing job.
     // Therefore, it tries to open the real camera first. If that fails, the virtual camera images from camgen are used.
-    ModuleState::MODULE_EXITCODE LaneDetector::body() {
+    ModuleState::MODULE_EXITCODE AutodriveSim::body() {
 	    // Get configuration data.
 	    KeyValueConfiguration kv = getKeyValueConfiguration();
-	    m_debug = kv.getValue<int32_t> ("lanedetector.debug") == 1;
+	    m_debug = kv.getValue<int32_t> ("AutodriveSim.debug") == 1;
 
         Player *player = NULL;
 /*
@@ -264,9 +243,8 @@ namespace msv {
 
 		    // Process the read image.
 		    if (true == has_next_frame) {
-			    //processImage();
+			    drive();
 		    }
-            processParkingData();
 	    }
 
         OPENDAVINCI_CORE_DELETE_POINTER(player);

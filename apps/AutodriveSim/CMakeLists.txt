@@ -4,7 +4,7 @@
 # This software is open source. Please see COPYING and AUTHORS for further information.
 #
 
-PROJECT (lanedetector)
+PROJECT (AutodriveSim)
 
 # OpenCV libraries.
 FIND_PACKAGE(OpenCV REQUIRED)
@@ -31,11 +31,11 @@ IF("${PANDABOARD}" STREQUAL "YES")
     SET (CMAKE_EXE_LINKER_FLAGS "-Wl,-rpath-link=/opt/PandaBoard-SD/lib:/opt/PandaBoard-SD/usr/lib:/opt/PandaBoard-SD/lib/arm-linux-gnueabi:/opt/PandaBoard-SD/usr/lib/arm-linux-gnueabi")
 ENDIF("${PANDABOARD}" STREQUAL "YES")
 
-# Recipe for building "lanedetector".
-FILE(GLOB_RECURSE lanedetector-sources "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
-ADD_LIBRARY (lanedetectorlib STATIC ${lanedetector-sources})
-ADD_EXECUTABLE (lanedetector "${CMAKE_CURRENT_SOURCE_DIR}/apps/MainModule.cpp")
-TARGET_LINK_LIBRARIES (lanedetector lanedetectorlib ${DATA_LIBS} ${OPENDAVINCI_LIBS} ${LIBS} ${OpenCV_LIBS}) 
+# Recipe for building "AutodriveSim".
+FILE(GLOB_RECURSE AutodriveSim-sources "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+ADD_LIBRARY (AutodriveSimlib STATIC ${AutodriveSim-sources})
+ADD_EXECUTABLE (AutodriveSim "${CMAKE_CURRENT_SOURCE_DIR}/apps/MainModule.cpp")
+TARGET_LINK_LIBRARIES (AutodriveSim AutodriveSimlib ${DATA_LIBS} ${OPENDAVINCI_LIBS} ${LIBS} ${OpenCV_LIBS}) 
 
 # Recipe for installing "lanedetector".
-INSTALL(TARGETS lanedetector RUNTIME DESTINATION bin)
+INSTALL(TARGETS AutodriveSim RUNTIME DESTINATION bin)
