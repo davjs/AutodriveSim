@@ -117,14 +117,6 @@ namespace msv {
                 lane_Detection_Mode = false;
                 overtaking_Mode = false;
             }
-            FILE* pFile = std::fopen("loginit.txt", "a");
-            fprintf(pFile, "infrared_front: %f\n", infrared_front);
-            fprintf(pFile, "infrared_Rear: %f\n", infrared_Rear);
-            fprintf(pFile, "frontCenter: %f\n", frontCenter);
-            fprintf(pFile, "angle: %d\n", angle);
-            fflush(pFile);
-            fclose(pFile);
-
             if(!obstacle_Detection_Mode && (frontCenter > 0.0 && frontCenter <7.2))  {
                 FILE* pFile2 = std::fopen("log1.txt", "a");
                 vc.setSpeed(0.5);
@@ -183,12 +175,6 @@ namespace msv {
                 fprintf(pFile6, "infrared_front: %f\n", infrared_front);
                 fflush(pFile6);
                 fclose(pFile6);
-            }
-
-            cerr << "sensor front_Right_Sonic: " << front_Right_Sonic <<endl;
-            if(front_Right_Sonic < 3){
-                obstacle_Detection_Mode = true;
-                vc.setSpeed(0);
             }
 
             //car on, car does whatever it is supposed to.
