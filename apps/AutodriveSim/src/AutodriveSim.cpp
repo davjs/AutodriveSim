@@ -133,12 +133,12 @@ namespace msv {
         SensorBoardData sbd = containerSensorBoardData.getData<SensorBoardData> ();
 
         // Assigning the values of the sensors
-        Autodrive::SensorData::irFrontRight = sbd.getMapOfDistances()[0];
-        Autodrive::SensorData::irRear = sbd.getMapOfDistances()[1];
-        Autodrive::SensorData::irRearRight = sbd.getMapOfDistances()[2];
-        Autodrive::SensorData::usFront = sbd.getMapOfDistances()[3];
-        Autodrive::SensorData::usFrontRight = sbd.getMapOfDistances()[4];
-        Autodrive::SensorData::usRearRight = sbd.getMapOfDistances()[5];
+        Autodrive::SensorData::infrared.frontright = sbd.getMapOfDistances()[0];
+        Autodrive::SensorData::infrared.rear = sbd.getMapOfDistances()[1];
+        Autodrive::SensorData::infrared.rearright = sbd.getMapOfDistances()[2];
+        Autodrive::SensorData::ultrasound.front = sbd.getMapOfDistances()[3];
+        Autodrive::SensorData::ultrasound.frontright = sbd.getMapOfDistances()[4];
+        Autodrive::SensorData::ultrasound.rear = sbd.getMapOfDistances()[5];
 
         // Assigning the values of the vehicle
         Autodrive::SensorData::encoderPulses = vd.getAbsTraveledPath();
@@ -153,8 +153,8 @@ namespace msv {
         
     /* ----------------------------------- Debug ---------------------------- */
         // sensor data
-        std::cerr << "Distance front right infrared '" << Autodrive::SensorData::irFrontRight << "'" << std::endl;
-        std::cerr << "Distance rear rigth infrared '" << Autodrive::SensorData::irRearRight << "'" << std::endl;
+        std::cerr << "Distance front right infrared '" << Autodrive::SensorData::infrared.frontright << "'" << std::endl;
+        std::cerr << "Distance rear rigth infrared '" << Autodrive::SensorData::infrared.rearright << "'" << std::endl;
         //std::cerr << "Distance front ultrasonic '" << Autodrive::SensorData::usFront << "'" << std::endl;
         //std::cerr << "Distance front right ultrasonic '" << Autodrive::SensorData::usFrontRight << "'" << std::endl;
         //std::cerr << "Gap length '" << Autodrive::Parking::gapLength << "'" << std::endl;
