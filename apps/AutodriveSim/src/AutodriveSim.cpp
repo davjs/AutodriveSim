@@ -55,7 +55,7 @@ namespace msv {
     void AutodriveSim::setUp() {
 	    // This method will be call automatically _before_ running body().
         std::cout << "SETUP" << std::endl;
-        Autodrive::SensorData::setCarRatio(0.05);
+        Autodrive::SensorData::setCarLength(7);
         Autodrive::setStatus(Autodrive::DETECTING_GAP);
     }
 
@@ -143,7 +143,7 @@ namespace msv {
 
         // Assigning the values of the vehicle
         Autodrive::SensorData::encoderPulses = vd.getAbsTraveledPath();
-        Autodrive::SensorData::currentAngle = vd.getHeading() * Constants::RAD2DEG;
+        Autodrive::SensorData::gyroHeading = vd.getHeading() * Constants::RAD2DEG;
     /* ---------------------------------------------------------------------- */      
     }
 
