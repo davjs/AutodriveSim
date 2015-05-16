@@ -55,6 +55,7 @@ namespace msv {
     void AutodriveSim::setUp() {
 	    // This method will be call automatically _before_ running body().
         std::cout << "SETUP" << std::endl;
+        Autodrive::SensorData::setCarRatio(0.05);
         Autodrive::setStatus(Autodrive::DETECTING_GAP);
     }
 
@@ -155,6 +156,8 @@ namespace msv {
         // sensor data
         std::cerr << "Distance front right infrared '" << Autodrive::SensorData::infrared.frontright << "'" << std::endl;
         std::cerr << "Distance rear rigth infrared '" << Autodrive::SensorData::infrared.rearright << "'" << std::endl;
+        
+        std::cerr << "GapLength '" << Autodrive::Parking::gapLength << "'" << std::endl;
         //std::cerr << "Distance front ultrasonic '" << Autodrive::SensorData::usFront << "'" << std::endl;
         //std::cerr << "Distance front right ultrasonic '" << Autodrive::SensorData::usFrontRight << "'" << std::endl;
         //std::cerr << "Gap length '" << Autodrive::Parking::gapLength << "'" << std::endl;
