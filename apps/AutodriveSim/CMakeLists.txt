@@ -7,7 +7,7 @@
 PROJECT (AutodriveSim)
 
 # OpenCV libraries.
-FIND_PACKAGE(OpenCV REQUIRED)
+#FIND_PACKAGE(OpenCV REQUIRED)
 
 SET (OpenCV_LIBS opencv_core opencv_imgproc opencv_highgui)
 
