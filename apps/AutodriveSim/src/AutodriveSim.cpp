@@ -54,7 +54,7 @@ namespace msv {
 
     void AutodriveSim::setUp() {
 	    // This method will be call automatically _before_ running body().
-
+        std::cout << "SETUP" << std::endl;
         Autodrive::setStatus(Autodrive::DETECTING_GAP);
     }
 
