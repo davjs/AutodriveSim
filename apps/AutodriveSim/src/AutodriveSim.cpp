@@ -56,7 +56,7 @@ namespace msv {
 	    // This method will be call automatically _before_ running body().
         std::cout << "SETUP" << std::endl;
         Autodrive::SensorData::setCarLength(7);
-        Autodrive::setStatus(Autodrive::DETECTING_GAP);
+        Autodrive::setInitialStatus(Autodrive::DETECTING_GAP);
     }
 
     void AutodriveSim::tearDown() {
