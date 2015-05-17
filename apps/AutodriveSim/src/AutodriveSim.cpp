@@ -33,6 +33,8 @@
 #include "../Autodrive/Include/autodrive.hpp"
 #include "AutodriveSim.hpp"
 
+const int maxSpeed = 2;
+
 namespace msv {
 
     using namespace std;
@@ -178,7 +180,7 @@ namespace msv {
             
             // With setSpeed you can set a desired speed for the vehicle in the range of -2.0 (backwards) .. 0 (stop) .. +2.0 (forwards)
             if(Autodrive::speedChanged())
-                vc.setSpeed(Autodrive::getSpeed());
+                vc.setSpeed(Autodrive::getSpeed() * maxSpeed);
             // With setSteeringWheelAngle, you can steer in the range of -26 (left) .. 0 (straight) .. +25 (right)
             if(Autodrive::angleChanged())
                 vc.setSteeringWheelAngle(Autodrive::getAngle());
