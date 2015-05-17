@@ -3,6 +3,12 @@
 *.swo
 *~
 
+#CLION
+.idea/
+
+#GIT REBASE FILES
+*.orig
+
 ### CMake ###
 CMakeCache.txt
 CMakeFiles

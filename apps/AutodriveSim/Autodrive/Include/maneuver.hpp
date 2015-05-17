@@ -1,15 +1,17 @@
 #pragma once
 #include <string.h>
 #include <math.h>
-#include "imageprocessor/command.hpp"
+#include "command.hpp"
 #include "sensordata.hpp"
 
 namespace Autodrive {
 
 	namespace Maneuver{
+		
+		int mInt = 0;
 
-		int slowSpeed = 1;
-		int normalSpeed = 2;
+		double slowSpeed = 0.16;
+		double normalSpeed = 0.28;
 
 		// measuring distance traveled
 		bool measuringDistance = false;
@@ -33,11 +35,12 @@ namespace Autodrive {
 			command cmd;
 			cmd.setSpeed(0);
 			cmd.setAngle(0);
+			std::cout << "STOPPING" << std::endl;
 			return cmd;
 		}
 
 		// sets the car speed
-		command SetSpeed(int speed) {
+		command SetSpeed(double speed) {
 			command cmd;
 			cmd.setSpeed(speed);
 			return cmd;
@@ -52,7 +55,7 @@ namespace Autodrive {
 		}
 
 		// turns the car
-		command Turn(int angle) {
+		command Turn(double angle) {
 			command cmd;
 			cmd.setSpeed(slowSpeed);
 			cmd.setAngle(angle);
@@ -62,18 +65,18 @@ namespace Autodrive {
 		command Turn(direction direction) {
 			command cmd;
 			if (direction == right) {
-				cmd.setAngle(25);
+				cmd.setAngle(1.0);
 			} else {
-				cmd.setAngle(-25);
+				cmd.setAngle(-1.0);
 			}
 			return cmd;
 		}
 		
 		command Turn(command cmd, direction direction) {
 			if (direction == right) {
-				cmd.setAngle(25);
+				cmd.setAngle(1.0);
 			} else {
-				cmd.setAngle(-25);
+				cmd.setAngle(-1.0);
 			}
 			return cmd;
 		}
@@ -113,15 +116,15 @@ namespace Autodrive {
 
 				// initialize start point
 				if(!measuringAngle){
-					startAngle = SensorData::currentAngle;
+					startAngle = SensorData::gyroHeading;
 					measuringAngle = true;
 				}
 
 				// get the current angle from where the car was, to where it is now
-				currentAngle = fmod((startAngle - SensorData::currentAngle),360);
+				currentAngle = fmod((startAngle - SensorData::gyroHeading),360);
 				if(currentAngle > 180) currentAngle = 360 - currentAngle;
 
-				if(fabs(currentAngle) > fabs(desiredAngle)) {
+				if(abs(currentAngle) > abs(desiredAngle)) { // TODO make sure currentAngle & desiredAngle are INT
 					measuringAngle = false;
 					return true;
 				}else{
@@ -131,9 +134,9 @@ namespace Autodrive {
 
 			// stops the car if it gets too close to something, provided a direction to pay attention too
 			bool EmergencyStop(direction direction){
-				if(SensorData::infrared[2] > -1 && SensorData::infrared[2] < 2.5 && direction == back){
+				if(SensorData::infrared.rear > -1 && SensorData::infrared.rear < 2.5 && direction == back){
 					return true;
-				}else if(((SensorData::ultrasound[0] > -1 && SensorData::ultrasound[0] < 2) || (SensorData::ultrasound[1] > -1 && SensorData::ultrasound[1] <2)) && direction == front){
+				}else if(((SensorData::ultrasound.front > -1 && SensorData::ultrasound.front < 2) || (SensorData::ultrasound.frontright > -1 && SensorData::ultrasound.frontright <2)) && direction == front){
 					return true;
 		        }else{
 		        	return false;
@@ -250,7 +253,7 @@ namespace Autodrive {
 			// perpendicular parking maneuver
 			command PerpendicularStandard(){
 				command cmd;
-				std::cout << "PERPENDICULAR_STANDARD" << std::endl;
+				//std::cout << "PERPENDICULAR_STANDARD" << std::endl;
 				
 				if(!init){
 					currentManeuver = NO_MANEUVER;
@@ -260,7 +263,7 @@ namespace Autodrive {
 				switch(currentManeuver){
 					
 					case NO_MANEUVER:
-						std::cout << "NO_MANEUVER" << std::endl;
+						//std::cout << "NO_MANEUVER" << std::endl;
 						if(Status::IsStoped()){
 							currentManeuver = BACKWARDS_RIGHT;
 							return command();
@@ -269,13 +272,14 @@ namespace Autodrive {
 						}
 		
 					case BACKWARDS_RIGHT:
-						std::cout << "BACKWARDS_RIGHT" << std::endl;
+						//std::cout << "BACKWARDS_RIGHT" << std::endl;
 						cmd.setSpeed(slowSpeed * -1);
+						
 						if(Status::HasTurnedAngle(90)){
 							currentManeuver = DONE;
-							return command();
+							return Stop();
 						}else{
-							return Turn(cmd,right);
+							return Turn(cmd, right);
 						}
 						// return cmd;
 						/*if(Status::EmergencyStop(back)){
@@ -286,7 +290,7 @@ namespace Autodrive {
 						}*/
 		
 		            case BACKWARDS:
-						std::cout << "BACKWARDS" << std::endl;
+						//std::cout << "BACKWARDS" << std::endl;
 		                if(Status::HasTraveledDistance(1)){
 							currentManeuver = DONE;
 							return Stop();
@@ -295,7 +299,7 @@ namespace Autodrive {
 						}
 		
 					default:
-						std::cout << "DONE" << std::endl;
+						//std::cout << "DONE" << std::endl;
 						return command();
 				}
 			}
