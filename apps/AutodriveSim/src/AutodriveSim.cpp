@@ -33,7 +33,7 @@
 #include "../Autodrive/Include/autodrive.hpp"
 #include "AutodriveSim.hpp"
 
-const int maxSpeed = 2;
+const int maxSpeed = 7; // 2 is the normal speed for the simulator
 
 namespace msv {
 
@@ -111,9 +111,9 @@ namespace msv {
 	    return retVal;
     }
     
+    /* ----------------------------------- Data ---------------------------- */
     void AutodriveSim::updateAutodriveData(){
-        
-        /* ----------------------------------- Data ---------------------------- */
+    
         // Vehicle data
         Container containerVehicleData = getKeyValueDataStore().get(Container::VEHICLEDATA);
         VehicleData vd = containerVehicleData.getData<VehicleData> ();
@@ -133,9 +133,9 @@ namespace msv {
         // Assigning the values of the vehicle
         Autodrive::SensorData::encoderPulses = vd.getAbsTraveledPath();
         Autodrive::SensorData::gyroHeading = vd.getHeading() * Constants::RAD2DEG;
-    /* ---------------------------------------------------------------------- */      
     }
-
+    /* ---------------------------------------------------------------------- */  
+    /* ---------------------------------------------------------------------- */
     // You should start your work in this method.
     void AutodriveSim::drive() {
     
@@ -153,7 +153,7 @@ namespace msv {
             }
         }
 
-    /* ----------------------------------- Debug ---------------------------- */
+        /* ----------------------------------- Debug ---------------------------- */
         // sensor data
         std::cerr << "Distance front right infrared '" << Autodrive::SensorData::infrared.frontright << "'" << std::endl;
         std::cerr << "Distance rear rigth infrared '" << Autodrive::SensorData::infrared.rearright << "'" << std::endl;
@@ -168,13 +168,12 @@ namespace msv {
         //std::cerr << "Heading '" << Autodrive::SensorData::currentAngle << "'" << std::endl;
         //std::cerr << "Heading Start '" << Autodrive::Parking::headingStart << "'" << std::endl;
         //std::cout << "speed: "<< Autodrive::getSpeed() << std::endl;
-    /* ---------------------------------------------------------------------- */
+        /* ---------------------------------------------------------------------- */
     
         // Run autodrive
         Autodrive::drive();
     
-    /* ------------------------- Vehicle Control ---------------------------- */
-         
+        /* ------------------------- Vehicle Control ---------------------------- */
         if(Autodrive::speedChanged()|| Autodrive::angleChanged()){//Only send packets when nescecary
             
             // With setSpeed you can set a desired speed for the vehicle in the range of -2.0 (backwards) .. 0 (stop) .. +2.0 (forwards)
@@ -189,7 +188,8 @@ namespace msv {
             getConference().send(c);
         }
     }
-
+    /* ---------------------------------------------------------------------- */
+    
     // This method will do the main data processing job.
     // Therefore, it tries to open the real camera first. If that fails, the virtual camera images from camgen are used.
     ModuleState::MODULE_EXITCODE AutodriveSim::body() {
@@ -213,7 +213,6 @@ namespace msv {
 
         player = new Player(url, AUTO_REWIND, MEMORY_SEGMENT_SIZE, NUMBER_OF_SEGMENTS);
 */
-
         // "Working horse."
 	    while (getModuleState() == ModuleState::RUNNING) {
 		    bool has_next_frame = false;
@@ -244,6 +243,5 @@ namespace msv {
 
 	    return ModuleState::OKAY;
     }
-
 } // msv
 
