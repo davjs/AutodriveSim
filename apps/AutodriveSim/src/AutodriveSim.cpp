@@ -56,7 +56,6 @@ namespace msv {
 
     void AutodriveSim::setUp() {
 	    // This method will be call automatically _before_ running body().
-        std::cout << "SETUP" << std::endl;
         Autodrive::SensorData::setCarLength(7);
         Autodrive::setInitialStatus(Autodrive::DETECTING_GAP);
     }
@@ -114,18 +113,6 @@ namespace msv {
     
     void AutodriveSim::updateAutodriveData(){
         
-        /*  ----- RESIZE AND DISPLAY IMAGE ----- */
-        Mat frame = cv::cvarrToMat(m_image);
-        cv::Mat copy;
-        cv::resize(frame,copy,cv::Size(240,135));
-        Autodrive::SensorData::image = &copy;
-        cv::resize(copy,frame,cv::Size(640,480));
-        if (m_debug) {
-            if (m_image != NULL) {
-                imshow("opencv_eye", frame);
-            }
-        }
-        
         /* ----------------------------------- Data ---------------------------- */
         // Vehicle data
         Container containerVehicleData = getKeyValueDataStore().get(Container::VEHICLEDATA);
@@ -152,8 +139,20 @@ namespace msv {
     // You should start your work in this method.
     void AutodriveSim::drive() {
     
-    updateAutodriveData();
-        
+        updateAutodriveData();
+
+        /*  ----- RESIZE AND DISPLAY IMAGE ----- */
+        Mat frame = cv::cvarrToMat(m_image);
+        cv::Mat copy;
+        cv::resize(frame,copy,cv::Size(240,135));
+        Autodrive::SensorData::image = &copy;
+        cv::resize(copy,frame,cv::Size(640,480));
+        if (m_debug) {
+            if (m_image != NULL) {
+                imshow("opencv_eye", frame);
+            }
+        }
+
     /* ----------------------------------- Debug ---------------------------- */
         // sensor data
         std::cerr << "Distance front right infrared '" << Autodrive::SensorData::infrared.frontright << "'" << std::endl;
