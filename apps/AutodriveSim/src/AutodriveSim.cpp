@@ -57,7 +57,7 @@ namespace msv {
     void AutodriveSim::setUp() {
 	    // This method will be call automatically _before_ running body().
         Autodrive::SensorData::setCarLength(7);
-        Autodrive::setInitialStatus(Autodrive::DETECTING_GAP);
+        Autodrive::setInitialStatus(Autodrive::SEARCHING_FOR_LANES);
     }
 
     void AutodriveSim::tearDown() {
