@@ -20,12 +20,17 @@ global.car = Scenarios/Models/FordEscape.objx
 #global.scenario = file://Scenarios/NoObstacles_StopLines.scnx
 
 #parking scenarios
-global.scenario = file://Scenarios/SEM_Parking_Perpendicular_Simple.scnx
+#global.scenario = file://Scenarios/SEM_Parking_Perpendicular_Simple.scnx
 #global.scenario = file://Scenarios/SEM_Parking_Perpendicular_Advanced.scnx
 #global.scenario = file://Scenarios/SEM_Parking_Parallel_Simple.scnx
 #global.scenario = file://Scenarios/SEM_Parking_Parallel_Advanced.scnx
 #global.scenario = file://Scenarios/SEM_Test_Track.scnx
 #global.scenario = file://Scenarios/Parking-sideways.scnx
+
+#overtaking scenarios
+global.scenario = file://Scenarios/ObstacleOnStraightRoad.scnx
+#global.scenario = file://Scenarios/ObstacleInFirstCurve.scnx
+#global.scenario = file://Scenarios/ObstaclesAtIntersections_StopLines.scnx
 
 global.showGrid = 0
 
