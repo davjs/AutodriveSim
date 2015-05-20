@@ -62,10 +62,10 @@ namespace msv {
         bool overtake = false;
         double steerAngle = 0;
         bool is_Right_Lane = true;
-        const int min_Distance = 10;
-//        const int max_Right_Angle = 25;
+        const int min_Distance = 20;
+        const int max_Right_Angle = 25;
         const int max_Left_Angle = -25;
-        const int min_RightSpace = 10;
+        const int min_RightSpace = 5;
         int distance_To_Obstacle = 0;
         string mode = " ";
         LaneConfig lc;
@@ -107,21 +107,25 @@ namespace msv {
 //            front_Center_Sonic = sbd.getValueForKey_MapOfDistances(3);
             infraRightRear = sbd.getValueForKey_MapOfDistances(2);
             infraRightFront = sbd.getValueForKey_MapOfDistances(0);
+
             if (infraRightRear > min_RightSpace && infraRightFront > min_RightSpace) {
                 right_clear = true;
             }
+//            if (front_Center_Sonic < distance_To_Obstacle) { //ibti
+//                right_clear = true;
+//            }
 
 
             // state machine
             if (is_Right_Lane) {
 
-                if (distance_To_Obstacle > min_Distance) { // normal mode
+                if (distance_To_Obstacle < min_Distance) { // normal mode
                     cerr << " L A N E  F O L L O W I N G" << endl;
                     steerAngle = angle;
                 }
 
                 else {  // overtake
-                    //vc.setSpeed(1);
+                    vc.setSpeed(1);
                     steerAngle = max_Left_Angle;
                     lc.setCmd(false);
                     overtake = true;
@@ -131,13 +135,17 @@ namespace msv {
                 }
             }
             else {   // during overtaking
-                if (right_clear && overtake) {//turn back
-                    steerAngle = max_Left_Angle;
+
+                if(right_clear && overtake) {//turn back
+                    steerAngle = max_Right_Angle;
                     lc.setCmd(true);
-                    overtake = true;
+//                while(right_clear && overtake) {//turn back
+//                    steerAngle = max_Right_Angle;
+//                    lc.setCmd(true);
+
                 }
-
-
+                overtake = false;
+                is_Right_Lane = true;
             }
 
             // You can also turn on or off various lights:
@@ -152,7 +160,7 @@ namespace msv {
             // Send container.
             getConference().send(c);
 
-            LaneConfig lc;
+            //LaneConfig lc;
             //lc.toString();
             // LaneConfig lc;
             lc.setCmd(false);
@@ -164,6 +172,6 @@ namespace msv {
 
         }
         return
-        ModuleState::OKAY;
+                ModuleState::OKAY;
     }
 } // msv
