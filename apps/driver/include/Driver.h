@@ -31,42 +31,42 @@ namespace msv {
      */
     class Driver : public core::base::ConferenceClientModule {
         private:
-        /**
-         * "Forbidden" copy constructor. Goal: The compiler should warn
-         * already at compile time for unwanted bugs caused by any misuse
-         * of the copy constructor.
-         *
-         * @param obj Reference to an object of this class.
-         */
-        Driver(const Driver &/*obj*/);
+            /**
+             * "Forbidden" copy constructor. Goal: The compiler should warn
+             * already at compile time for unwanted bugs caused by any misuse
+             * of the copy constructor.
+             *
+             * @param obj Reference to an object of this class.
+             */
+            Driver(const Driver &/*obj*/);
 
-        /**
-         * "Forbidden" assignment operator. Goal: The compiler should warn
-         * already at compile time for unwanted bugs caused by any misuse
-         * of the assignment operator.
-         *
-         * @param obj Reference to an object of this class.
-         * @return Reference to this instance.
-         */
-        Driver& operator=(const Driver &/*obj*/);
+            /**
+             * "Forbidden" assignment operator. Goal: The compiler should warn
+             * already at compile time for unwanted bugs caused by any misuse
+             * of the assignment operator.
+             *
+             * @param obj Reference to an object of this class.
+             * @return Reference to this instance.
+             */
+            Driver& operator=(const Driver &/*obj*/);
 
         public:
-        /**
-         * Constructor.
-         *
-         * @param argc Number of command line arguments.
-         * @param argv Command line arguments.
-         */
-        Driver(const int32_t &argc, char **argv);
+            /**
+             * Constructor.
+             *
+             * @param argc Number of command line arguments.
+             * @param argv Command line arguments.
+             */
+            Driver(const int32_t &argc, char **argv);
 
-        virtual ~Driver();
+            virtual ~Driver();
 
-        core::base::ModuleState::MODULE_EXITCODE body();
+            core::base::ModuleState::MODULE_EXITCODE body();
 
         private:
-        virtual void setUp();
+            virtual void setUp();
 
-        virtual void tearDown();
+            virtual void tearDown();
     };
 
 } // msv

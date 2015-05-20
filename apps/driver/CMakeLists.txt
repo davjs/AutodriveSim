@@ -20,18 +20,18 @@ TARGET_LINK_LIBRARIES (driver driverlib ${DATA_LIBS} ${OPENDAVINCI_LIBS} ${LIBS}
 # Recipe for installing "driver".
 INSTALL(TARGETS driver RUNTIME DESTINATION bin) 
 
-# Enable CxxTest for all available testsuites.
-IF(CXXTEST_FOUND)
-    FILE(GLOB driver-testsuites "${CMAKE_CURRENT_SOURCE_DIR}/testsuites/*.h")
-    
-    FOREACH(testsuite ${driver-testsuites})
-        STRING(REPLACE "/" ";" testsuite-list ${testsuite})
-
-        LIST(LENGTH testsuite-list len)
-        MATH(EXPR lastItem "${len}-1")
-        LIST(GET testsuite-list "${lastItem}" testsuite-short)
-
-	    CXXTEST_ADD_TEST(${testsuite-short}-TestSuite ${testsuite-short}-TestSuite.cpp ${testsuite})
-	    TARGET_LINK_LIBRARIES(${testsuite-short}-TestSuite driverlib ${DATA_LIBS} ${OPENDAVINCI_LIBS} ${LIBS})
-    ENDFOREACH()
-ENDIF(CXXTEST_FOUND)
+## Enable CxxTest for all available testsuites.
+#IF(CXXTEST_FOUND)
+#    FILE(GLOB driver-testsuites "${CMAKE_CURRENT_SOURCE_DIR}/testsuites/*.h")
+#
+#    FOREACH(testsuite ${driver-testsuites})
+#        STRING(REPLACE "/" ";" testsuite-list ${testsuite})
+#
+#        LIST(LENGTH testsuite-list len)
+#        MATH(EXPR lastItem "${len}-1")
+#        LIST(GET testsuite-list "${lastItem}" testsuite-short)
+#
+#	    CXXTEST_ADD_TEST(${testsuite-short}-TestSuite ${testsuite-short}-TestSuite.cpp ${testsuite})
+#	    TARGET_LINK_LIBRARIES(${testsuite-short}-TestSuite driverlib ${DATA_LIBS} ${OPENDAVINCI_LIBS} ${LIBS})
+#    ENDFOREACH()
+#ENDIF(CXXTEST_FOUND)
