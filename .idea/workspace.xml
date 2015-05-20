@@ -2,10 +2,11 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" assignedExecutableTargets="true" buildAllGenerated="true">
     <generated>
+      <config projectName="OPENDAVINCI" targetName="zlib" />
       <config projectName="OPENDAVINCI" targetName="chasecar" />
+      <config projectName="OPENDAVINCI" targetName="RunnerTestSuite.h-TestSuite" />
       <config projectName="OPENDAVINCI" targetName="PointShapedObjectTestSuite.h-TestSuite" />
       <config projectName="OPENDAVINCI" targetName="example3receiver" />
-      <config projectName="OPENDAVINCI" targetName="recorder" />
       <config projectName="OPENDAVINCI" targetName="driverlib" />
       <config projectName="OPENDAVINCI" targetName="rec2stdout" />
       <config projectName="OPENDAVINCI" targetName="RuntimeControlTestSuite.h-TestSuite" />
@@ -24,9 +25,9 @@
       <config projectName="OPENDAVINCI" targetName="QueueTestSuite.h-TestSuite" />
       <config projectName="OPENDAVINCI" targetName="lanedetectorlib" />
       <config projectName="OPENDAVINCI" targetName="DataStoreTestSuite.h-TestSuite" />
-      <config projectName="OPENDAVINCI" targetName="PlayerTestSuite.h-TestSuite" />
-      <config projectName="OPENDAVINCI" targetName="proxylib" />
-      <config projectName="OPENDAVINCI" targetName="data" />
+      <config projectName="OPENDAVINCI" targetName="TimeStampTestSuite.h-TestSuite" />
+      <config projectName="OPENDAVINCI" targetName="vehicle" />
+      <config projectName="OPENDAVINCI" targetName="cockpitlib" />
       <config projectName="OPENDAVINCI" targetName="egocontrollerlib" />
       <config projectName="OPENDAVINCI" targetName="ContainerTestSuite.h-TestSuite" />
       <config projectName="OPENDAVINCI" targetName="ScenarioTestSuite.h-TestSuite" />
@@ -36,73 +37,72 @@
       <config projectName="OPENDAVINCI" targetName="KeyValueConfigurationTestSuite.h-TestSuite" />
       <config projectName="OPENDAVINCI" targetName="LaneDetectorReplayTestsuite.h-TestSuite" />
       <config projectName="OPENDAVINCI" targetName="RuntimeControlContainerTestSuite.h-TestSuite" />
-      <config projectName="OPENDAVINCI" targetName="FalseSerializationTestSuite.h-TestSuite" />
-      <config projectName="OPENDAVINCI" targetName="ServiceTestSuite.h-TestSuite" />
+      <config projectName="OPENDAVINCI" targetName="TreeNodeTestSuite.h-TestSuite" />
+      <config projectName="OPENDAVINCI" targetName="vehiclelib" />
+      <config projectName="OPENDAVINCI" targetName="CommandLineParserTestSuite.h-TestSuite" />
       <config projectName="OPENDAVINCI" targetName="spylib" />
-      <config projectName="OPENDAVINCI" targetName="camgenlib" />
+      <config projectName="OPENDAVINCI" targetName="AutodriveSimlib" />
       <config projectName="OPENDAVINCI" targetName="iruslib" />
       <config projectName="OPENDAVINCI" targetName="driver" />
-      <config projectName="OPENDAVINCI" targetName="recintegrity" />
+      <config projectName="OPENDAVINCI" targetName="ServiceTestSuite.h-TestSuite" />
+      <config projectName="OPENDAVINCI" targetName="recorder" />
       <config projectName="OPENDAVINCI" targetName="TCPTestSuite.h-TestSuite" />
-      <config projectName="OPENDAVINCI" targetName="AutodriveSimlib" />
-      <config projectName="OPENDAVINCI" targetName="ProxyTestSuite.h-TestSuite" />
+      <config projectName="OPENDAVINCI" targetName="FalseSerializationTestSuite.h-TestSuite" />
+      <config projectName="OPENDAVINCI" targetName="data" />
       <config projectName="OPENDAVINCI" targetName="spy" />
-      <config projectName="OPENDAVINCI" targetName="vehicle" />
+      <config projectName="OPENDAVINCI" targetName="SupercomponentClientModuleTestSuite.h-TestSuite" />
+      <config projectName="OPENDAVINCI" targetName="LaneDetectorTestSuite.h-TestSuite" />
       <config projectName="OPENDAVINCI" targetName="playerlib" />
       <config projectName="OPENDAVINCI" targetName="ZipTestSuite.h-TestSuite" />
-      <config projectName="OPENDAVINCI" targetName="vehiclelib" />
       <config projectName="OPENDAVINCI" targetName="proxy" />
       <config projectName="OPENDAVINCI" targetName="ControlFlowTestSuite.h-TestSuite" />
       <config projectName="OPENDAVINCI" targetName="DMCPConnectionTestSuite.h-TestSuite" />
       <config projectName="OPENDAVINCI" targetName="QuaternionTestSuite.h-TestSuite" />
       <config projectName="OPENDAVINCI" targetName="StringToolboxTestSuite.h-TestSuite" />
-      <config projectName="OPENDAVINCI" targetName="SupercomponentClientModuleTestSuite.h-TestSuite" />
+      <config projectName="OPENDAVINCI" targetName="ProxyTestSuite.h-TestSuite" />
       <config projectName="OPENDAVINCI" targetName="SerializationTestSuite.h-TestSuite" />
       <config projectName="OPENDAVINCI" targetName="opendavinci" />
-      <config projectName="OPENDAVINCI" targetName="CommandLineParserTestSuite.h-TestSuite" />
       <config projectName="OPENDAVINCI" targetName="supercomponent" />
       <config projectName="OPENDAVINCI" targetName="recintegritylib" />
-      <config projectName="OPENDAVINCI" targetName="zlib" />
+      <config projectName="OPENDAVINCI" targetName="proxylib" />
       <config projectName="OPENDAVINCI" targetName="SpyTestSuite.h-TestSuite" />
-      <config projectName="OPENDAVINCI" targetName="TreeNodeTestSuite.h-TestSuite" />
-      <config projectName="OPENDAVINCI" targetName="player" />
+      <config projectName="OPENDAVINCI" targetName="splitlib" />
       <config projectName="OPENDAVINCI" targetName="recorderlib" />
       <config projectName="OPENDAVINCI" targetName="egocontroller" />
       <config projectName="OPENDAVINCI" targetName="example2" />
       <config projectName="OPENDAVINCI" targetName="example1" />
-      <config projectName="OPENDAVINCI" targetName="AutodriveSim" />
       <config projectName="OPENDAVINCI" targetName="ConnectionTestSuite.h-TestSuite" />
       <config projectName="OPENDAVINCI" targetName="drivenpathlib" />
+      <config projectName="OPENDAVINCI" targetName="example7receiver" />
       <config projectName="OPENDAVINCI" targetName="rec2stdoutlib" />
       <config projectName="OPENDAVINCI" targetName="dblib" />
       <config projectName="OPENDAVINCI" targetName="vehiclecontext" />
-      <config projectName="OPENDAVINCI" targetName="LaneDetectorTestSuite.h-TestSuite" />
+      <config projectName="OPENDAVINCI" targetName="player" />
       <config projectName="OPENDAVINCI" targetName="example3sender" />
       <config projectName="OPENDAVINCI" targetName="ConferenceFactoryTestSuite.h-TestSuite" />
-      <config projectName="OPENDAVINCI" targetName="RunnerTestSuite.h-TestSuite" />
+      <config projectName="OPENDAVINCI" targetName="AutodriveSim" />
       <config projectName="OPENDAVINCI" targetName="ConferenceClientModuleTestSuite.h-TestSuite" />
       <config projectName="OPENDAVINCI" targetName="ziplib" />
+      <config projectName="OPENDAVINCI" targetName="ConditionTestSuite.h-TestSuite" />
       <config projectName="OPENDAVINCI" targetName="ManagedLevelTestSuite.h-TestSuite" />
       <config projectName="OPENDAVINCI" targetName="MutexTestSuite.h-TestSuite" />
-      <config projectName="OPENDAVINCI" targetName="TimeStampTestSuite.h-TestSuite" />
+      <config projectName="OPENDAVINCI" targetName="cockpit" />
       <config projectName="OPENDAVINCI" targetName="StringProtocolTestSuite.h-TestSuite" />
-      <config projectName="OPENDAVINCI" targetName="UDPTestSuite.h-TestSuite" />
+      <config projectName="OPENDAVINCI" targetName="recintegrity" />
       <config projectName="OPENDAVINCI" targetName="msv_UserButtonDataTestSuite.h-TestSuite" />
-      <config projectName="OPENDAVINCI" targetName="cockpitlib" />
-      <config projectName="OPENDAVINCI" targetName="example5receiver" />
+      <config projectName="OPENDAVINCI" targetName="camgenlib" />
       <config projectName="OPENDAVINCI" targetName="example5sender" />
-      <config projectName="OPENDAVINCI" targetName="SituationTestSuite.h-TestSuite" />
-      <config projectName="OPENDAVINCI" targetName="splitlib" />
-      <config projectName="OPENDAVINCI" targetName="lanedetector" />
-      <config projectName="OPENDAVINCI" targetName="example7receiver" />
+      <config projectName="OPENDAVINCI" targetName="irus" />
+      <config projectName="OPENDAVINCI" targetName="UDPTestSuite.h-TestSuite" />
+      <config projectName="OPENDAVINCI" targetName="example5receiver" />
+      <config projectName="OPENDAVINCI" targetName="PlayerTestSuite.h-TestSuite" />
       <config projectName="OPENDAVINCI" targetName="supercomponentlib" />
       <config projectName="OPENDAVINCI" targetName="SplitTestSuite.h-TestSuite" />
-      <config projectName="OPENDAVINCI" targetName="irus" />
       <config projectName="OPENDAVINCI" targetName="example7sender" />
       <config projectName="OPENDAVINCI" targetName="NetstringsProtocolTestSuite.h-TestSuite" />
-      <config projectName="OPENDAVINCI" targetName="ConditionTestSuite.h-TestSuite" />
+      <config projectName="OPENDAVINCI" targetName="SituationTestSuite.h-TestSuite" />
       <config projectName="OPENDAVINCI" targetName="hesperia" />
-      <config projectName="OPENDAVINCI" targetName="cockpit" />
+      <config projectName="OPENDAVINCI" targetName="lanedetector" />
       <config projectName="OPENDAVINCI" targetName="VCRlib" />
       <config projectName="OPENDAVINCI" targetName="chasecarlib" />
       <config projectName="OPENDAVINCI" targetName="ContouredObjectTestSuite.h-TestSuite" />
@@ -121,9 +121,42 @@
     </ADDITIONAL_GENERATION_ENVIRONMENT>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="28dead8c-8c29-4202-8b98-1d403afd1435" name="Default" comment="&quot;Smart&quot; Overtaking Logic. Switching  Lanes.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    <list default="true" id="28dead8c-8c29-4202-8b98-1d403afd1435" name="Default" comment="&quot;Smart&quot; Overtaking Logic. Switching  Between Lanes.">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Diagram.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/add_remote_Autodrive.sh" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/driver/include/LaneConfig.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/driver/src/LaneConfig.cpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/lanedetector/Autodrive/.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/lanedetector/Autodrive/Diagram.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/lanedetector/Autodrive/Include/autodrive.hpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/lanedetector/Autodrive/Include/imageprocessor/birdseyetransformer.hpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/lanedetector/Autodrive/Include/imageprocessor/command.hpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/lanedetector/Autodrive/Include/imageprocessor/imageprocessor.hpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/lanedetector/Autodrive/Include/imageprocessor/lightnormalizer.hpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/lanedetector/Autodrive/Include/imageprocessor/line.hpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/lanedetector/Autodrive/Include/imageprocessor/linefollower.hpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/lanedetector/Autodrive/Include/imageprocessor/roadfollower.hpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/lanedetector/Autodrive/Include/imageprocessor/roadline.hpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/lanedetector/Autodrive/Include/imageprocessor/roadlinebuilder.hpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/lanedetector/Autodrive/Include/imageprocessor/util.hpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/lanedetector/Autodrive/Include/sensordata.hpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/lanedetector/Autodrive/Include/settings.hpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/lanedetector/Autodrive/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/lanedetector/Autodrive/Sample/CMakeLists.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/lanedetector/Autodrive/Sample/main.cpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/lanedetector/Autodrive/Sample/testdrive.mp4" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/apps/lanedetector/Autodrive/Sample/testreal_small.mp4" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/autodrive.sh" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build.sh" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/placeholder" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/compile.sh" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/pull_Autodrive.sh" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/push_Autodrive.sh" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/push_Autodrive_forced.sh" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/driver/src/Driver.cpp" afterPath="$PROJECT_DIR$/apps/driver/src/Driver.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/lanedetector/src/LaneDetector.cpp" afterPath="$PROJECT_DIR$/apps/lanedetector/src/LaneDetector.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="AutodriveSim.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -144,22 +177,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="LaneConfig.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/driver/src/LaneConfig.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Driver.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/driver/src/Driver.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.67175573">
-              <caret line="81" column="36" selection-start-line="81" selection-start-column="36" selection-end-line="81" selection-end-column="36" />
-              <folding />
+            <state vertical-scroll-proportion="1.2889447">
+              <caret line="67" column="37" selection-start-line="67" selection-start-column="37" selection-end-line="67" selection-end-column="37" />
+              <folding>
+                <marker date="1432164221700" expanded="true" signature="1208:6859" placeholder="{...}" />
+                <marker date="1432164221700" expanded="true" signature="1863:6857" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -168,17 +194,7 @@
         <entry file="file://$PROJECT_DIR$/apps/lanedetector/src/LaneDetector.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="391" column="0" selection-start-line="391" selection-start-column="0" selection-end-line="391" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LaneConfig.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/driver/include/LaneConfig.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <caret line="366" column="0" selection-start-line="366" selection-start-column="0" selection-end-line="366" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -375,6 +391,90 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AutodriveSim" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$1$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AutodriveSim" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="driver" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AutodriveSim" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$1$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AutodriveSim" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="driver" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AutodriveSim" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$1$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AutodriveSim" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="driver" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="include" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AutodriveSim" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$1$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AutodriveSim" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="driver" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -384,22 +484,23 @@
     <property name="settings.editor.selected.configurable" value="settings.github" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="FullScreen" value="false" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="229" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="227" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="249" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="247" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="256" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="254" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="1154" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="1147" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="229" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="227" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="249" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="247" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="256" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="254" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1154" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1147" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -1043,16 +1144,21 @@
       <option name="project" value="LOCAL" />
       <updated>1432160242453</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="&quot;Smart&quot; Overtaking Logic. Switching  Between Lanes.">
+      <created>1432160435437</created>
+      <option name="number" value="00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1432160435437</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="24" width="1920" height="928" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24973932" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24973932" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3292978" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32889965" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292978" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1060,6 +1166,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3292978" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1092,17 +1199,53 @@
     <MESSAGE value="Finalised connection between the driver and lane following. Overtaking logic up until now." />
     <MESSAGE value="Right Lane Following Implemented - Part 1 Of  ' Smart 'Overtaking." />
     <MESSAGE value="&quot;Smart&quot; Overtaking Logic. Switching  Lanes." />
-    <option name="LAST_COMMIT_MESSAGE" value="&quot;Smart&quot; Overtaking Logic. Switching  Lanes." />
+    <MESSAGE value="&quot;Smart&quot; Overtaking Logic. Switching  Between Lanes." />
+    <option name="LAST_COMMIT_MESSAGE" value="&quot;Smart&quot; Overtaking Logic. Switching  Between Lanes." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/apps/driver/src/LaneConfig.cpp">
+    <entry file="file://$PROJECT_DIR$/apps/driver/src/Driver.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="81" column="36" selection-start-line="81" selection-start-column="36" selection-end-line="81" selection-end-column="36" />
+          <folding>
+            <marker date="1432164221700" expanded="true" signature="1208:6859" placeholder="{...}" />
+            <marker date="1432164221700" expanded="true" signature="1863:6857" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/lanedetector/src/LaneDetector.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/driver/include/Driver.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="44" column="37" selection-start-line="44" selection-start-column="37" selection-end-line="44" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="20" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/supercomponent/configuration">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1111,15 +1254,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/driver/include/LaneConfig.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1432164221700" expanded="true" signature="1208:6859" placeholder="{...}" />
+            <marker date="1432164221700" expanded="true" signature="1863:6857" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1147,27 +1285,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/driver/src/LaneConfig.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/driver/src/Driver.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/driver/include/LaneConfig.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1432164221700" expanded="true" signature="1208:6859" placeholder="{...}" />
+            <marker date="1432164221700" expanded="true" signature="1863:6857" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1195,27 +1320,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/driver/src/LaneConfig.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/driver/src/Driver.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/driver/include/LaneConfig.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1432164221700" expanded="true" signature="1208:6859" placeholder="{...}" />
+            <marker date="1432164221700" expanded="true" signature="1863:6857" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1243,27 +1355,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/driver/src/LaneConfig.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/driver/src/Driver.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/driver/include/LaneConfig.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1432164221700" expanded="true" signature="1208:6859" placeholder="{...}" />
+            <marker date="1432164221700" expanded="true" signature="1863:6857" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1291,27 +1390,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/driver/src/LaneConfig.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/driver/src/Driver.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/driver/include/LaneConfig.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1432164221700" expanded="true" signature="1208:6859" placeholder="{...}" />
+            <marker date="1432164221700" expanded="true" signature="1863:6857" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1331,27 +1417,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/driver/src/LaneConfig.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/driver/src/Driver.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/driver/include/LaneConfig.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1432164221700" expanded="true" signature="1208:6859" placeholder="{...}" />
+            <marker date="1432164221700" expanded="true" signature="1863:6857" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1364,14 +1437,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/driver/src/LaneConfig.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1383,27 +1448,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="114" column="8" selection-start-line="114" selection-start-column="8" selection-end-line="114" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/driver/include/LaneConfig.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1432164221700" expanded="true" signature="1208:6859" placeholder="{...}" />
+            <marker date="1432164221700" expanded="true" signature="1863:6857" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/driver/include/Driver.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/driver/include/LaneConfig.h">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1423,14 +1475,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="44" column="37" selection-start-line="44" selection-start-column="37" selection-end-line="44" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/driver/src/LaneConfig.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1446,16 +1490,19 @@
     <entry file="file://$PROJECT_DIR$/apps/lanedetector/src/LaneDetector.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="391" column="0" selection-start-line="391" selection-start-column="0" selection-end-line="391" selection-end-column="0" />
+          <caret line="366" column="0" selection-start-line="366" selection-start-column="0" selection-end-line="366" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/driver/src/Driver.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.67175573">
-          <caret line="81" column="36" selection-start-line="81" selection-start-column="36" selection-end-line="81" selection-end-column="36" />
-          <folding />
+        <state vertical-scroll-proportion="1.2889447">
+          <caret line="67" column="37" selection-start-line="67" selection-start-column="37" selection-end-line="67" selection-end-column="37" />
+          <folding>
+            <marker date="1432164221700" expanded="true" signature="1208:6859" placeholder="{...}" />
+            <marker date="1432164221700" expanded="true" signature="1863:6857" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>

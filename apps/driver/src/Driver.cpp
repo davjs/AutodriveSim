@@ -62,7 +62,7 @@ namespace msv {
         bool overtake = false;
         double steerAngle = 0;
         bool is_Right_Lane = true;
-        const int min_Distance = 20;
+        const int min_Distance = 10;
         const int max_Right_Angle = 25;
         const int max_Left_Angle = -25;
         const int min_RightSpace = 5;
@@ -111,9 +111,7 @@ namespace msv {
             if (infraRightRear > min_RightSpace && infraRightFront > min_RightSpace) {
                 right_clear = true;
             }
-//            if (front_Center_Sonic < distance_To_Obstacle) { //ibti
-//                right_clear = true;
-//            }
+
 
 
             // state machine
@@ -121,6 +119,7 @@ namespace msv {
 
                 if (distance_To_Obstacle < min_Distance) { // normal mode
                     cerr << " L A N E  F O L L O W I N G" << endl;
+                    //is_Right_Lane = true; //ibti
                     steerAngle = angle;
                 }
 
@@ -136,7 +135,7 @@ namespace msv {
             }
             else {   // during overtaking
 
-                if(right_clear && overtake) {//turn back
+                if(right_clear && overtake) {//turn back //ibti
                     steerAngle = max_Right_Angle;
                     lc.setCmd(true);
 //                while(right_clear && overtake) {//turn back
@@ -164,6 +163,7 @@ namespace msv {
             //lc.toString();
             // LaneConfig lc;
             lc.setCmd(false);
+//            lc.setCmd(true); //ibti
 //            // Create container for finally sending the data.
             Container cmd(Container::USER_DATA_9, lc);
 //            // Send container.
@@ -172,6 +172,6 @@ namespace msv {
 
         }
         return
-                ModuleState::OKAY;
+        ModuleState::OKAY;
     }
 } // msv
