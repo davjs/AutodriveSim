@@ -27,12 +27,13 @@
 #include "core/data/image/SharedImage.h"
 #include "core/io/ContainerConference.h"
 #include "core/wrapper/SharedMemoryFactory.h"
-
 #include "tools/player/Player.h"
 
+#include "core/data/control/LaneConfig.h"
 #include "GeneratedHeaders_Data.h"
 
 #include "LaneDetector.h"
+
 
 namespace msv {
 
@@ -42,6 +43,9 @@ namespace msv {
     using namespace core::data::image;
     using namespace tools::player;
     using namespace cv;
+	using namespace core::data::control;
+
+	bool follow_right = true;
 
     LaneDetector::LaneDetector(const int32_t &argc, char **argv) : ConferenceClientModule(argc, argv, "lanedetector"),
         m_hasAttachedToSharedImageMemory(false),
@@ -130,6 +134,7 @@ namespace msv {
     	        int sample_mid3 = 120; //define mid vision
     	        int sample_far = 240; // define further vision
     	        int desired_right_near =243; //220
+				int desired_left_near =243; //220
     	        int desired_right_far =75; 
     	        double k = 0.12; //portion control 0.2
     	        int max_left = -24;
@@ -177,7 +182,7 @@ namespace msv {
         // 1. Do something with the image m_image here, for example: find lane marking features, optimize quality, ...
         // find right distance 
         //  I (x, y) ~ ((unsigned char*) (img-> imageData + img-> widthStep * y)) [x]        3 chanel     
-        double left_range = 0.4; // (0,0.5)
+        double left_range = 0.7; // (0,0.5)
         while((image + step * (height- sample_near)) [(width/2+right_near)*3]==0 && right_near < width/2 ){ right_near ++;} 
         while((image + step * (height- sample_far)) [(width/2+right_far)*3]==0 && right_far < width/2 ) {right_far++; }
         while((image + step * (height- sample_near)) [(width/2-left_near)*3]==0 && left_near < width*left_range+1 ){ left_near ++;}
@@ -260,6 +265,9 @@ namespace msv {
        
         // 2. Calculate desired steering commands from your image features to be processed by driver.
        double difference;
+		if (follow_right){ //following right lane
+
+
        if (!near_lost){
     	   difference = (  right_near-desired_right_near) *k ;
     	   intersection_protect = 0;
@@ -279,8 +287,26 @@ namespace msv {
        
        if (difference < max_left) difference = max_left;
        else if ( difference > max_right) difference = max_right;
-        
-        
+		}
+
+
+		else{ //following left  lane
+			if (near_lost_left){
+//				if( mid2_lost_left && mid3_lost_left){ //intersection
+//					difference = 0;//do no thing
+//				}
+//				else{ // attempt to go to left lane
+					difference = max_left;
+//				}
+
+				}
+			else{
+				difference =  -(  left_near - desired_left_near) *k ;
+			}
+
+			if (difference < max_left) difference = max_left;
+			else if ( difference > max_right) difference = max_right;
+		}
         
         // Here, you see an example of how to send the data structure SteeringData to the ContainerConference. This data structure will be received by all running components. In our example, it will be processed by Driver. To change this data structure, have a look at Data.odvd in the root folder of this source.
         SteeringData sd;
@@ -322,6 +348,10 @@ namespace msv {
 
 		    // Use the shared memory image.
             Container c;
+
+
+			Container cmd = getKeyValueDataStore().get(Container::USER_DATA_9);
+
             if (player != NULL) {
 		        // Read the next container from file.
                 c = player->getNextContainerToBeSent();
@@ -329,7 +359,17 @@ namespace msv {
             else {
 		        // Get the most recent available container for a SHARED_IMAGE.
 		        c = getKeyValueDataStore().get(Container::SHARED_IMAGE);
-            }                
+				//cmd = getKeyValueDataStore().get(Container::LANECONFIG);
+            }
+
+			//if (cmd.getDataType() == Container::USER_DATA_9) {
+				// Example for processing the received container.
+
+				LaneConfig lc = cmd.getData< LaneConfig> ();
+
+
+				follow_right = lc.getCmd();
+			//}
 
 		    if (c.getDataType() == Container::SHARED_IMAGE) {
 			    // Example for processing the received container.
@@ -348,5 +388,4 @@ namespace msv {
     }
 
 } // msv
-
 

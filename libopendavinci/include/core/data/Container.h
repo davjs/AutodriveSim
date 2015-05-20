@@ -82,6 +82,7 @@ namespace core {
                     USER_DATA_7                  = 1007,
                     USER_DATA_8                  = 1008,
                     USER_DATA_9                  = 1009
+
                 };
 
             public:

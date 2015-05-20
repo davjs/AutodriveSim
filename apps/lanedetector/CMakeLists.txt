@@ -40,18 +40,18 @@ INSTALL(TARGETS lanedetector RUNTIME DESTINATION bin)
 
 IF(NOT "${PANDABOARD}" STREQUAL "YES")
 # Enable CxxTest for all available testsuites.
-IF(CXXTEST_FOUND)
-    FILE(GLOB lanedetector-testsuites "${CMAKE_CURRENT_SOURCE_DIR}/testsuites/*.h")
-    
-    FOREACH(testsuite ${lanedetector-testsuites})
-        STRING(REPLACE "/" ";" testsuite-list ${testsuite})
-
-        LIST(LENGTH testsuite-list len)
-        MATH(EXPR lastItem "${len}-1")
-        LIST(GET testsuite-list "${lastItem}" testsuite-short)
-
-        CXXTEST_ADD_TEST(${testsuite-short}-TestSuite ${testsuite-short}-TestSuite.cpp ${testsuite})
-        TARGET_LINK_LIBRARIES(${testsuite-short}-TestSuite lanedetectorlib ${DATA_LIBS} ${VEHICLECONTEXT_LIBS} ${HESPERIA_LIBS} ${OPENDAVINCI_LIBS} ${LIBS} ${OpenCV_LIBS})
-    ENDFOREACH()
-ENDIF(CXXTEST_FOUND)
+#IF(CXXTEST_FOUND)
+#    FILE(GLOB lanedetector-testsuites "${CMAKE_CURRENT_SOURCE_DIR}/testsuites/*.h")
+#
+#    FOREACH(testsuite ${lanedetector-testsuites})
+#        STRING(REPLACE "/" ";" testsuite-list ${testsuite})
+#
+#        LIST(LENGTH testsuite-list len)
+#        MATH(EXPR lastItem "${len}-1")
+#        LIST(GET testsuite-list "${lastItem}" testsuite-short)
+#
+#        CXXTEST_ADD_TEST(${testsuite-short}-TestSuite ${testsuite-short}-TestSuite.cpp ${testsuite})
+#        TARGET_LINK_LIBRARIES(${testsuite-short}-TestSuite lanedetectorlib ${DATA_LIBS} ${VEHICLECONTEXT_LIBS} ${HESPERIA_LIBS} ${OPENDAVINCI_LIBS} ${LIBS} ${OpenCV_LIBS})
+#    ENDFOREACH()
+#ENDIF(CXXTEST_FOUND)
 ENDIF()
