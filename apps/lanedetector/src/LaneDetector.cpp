@@ -122,8 +122,8 @@ namespace msv {
     // You should start your work in this method.
     void LaneDetector::processImage() {
         // Example: Show the image.
-    	
-    	//draw a line       
+
+    	//draw a line
     	        int width = m_image -> width;
     	        int height = m_image -> height;
     	        int step  = m_image ->widthStep;
@@ -135,10 +135,10 @@ namespace msv {
     	        int sample_far = 240; // define further vision
     	        int desired_right_near =243; //220
 				int desired_left_near =243; //220
-    	        int desired_right_far =75; 
+    	        int desired_right_far =75;
     	        double k = 0.12; //portion control 0.2
     	        int max_left = -24;
-    	        int max_right = 24;// max turning steering 
+    	        int max_right = 24;// max turning steering
     	        //cout << " width:"<< width<<endl;
     	        //cout << " height:"<< height<<endl;
     	        CvScalar red = CV_RGB(250,0,0);
@@ -153,7 +153,7 @@ namespace msv {
     	        bool mid2_lost_left = 0;
     	        bool mid3_lost_left = 0;
     	        bool intersection_protect = 0;
-    	        
+
     	        CvPoint ver_centr_start = cvPoint(width/2,height);
     	        CvPoint ver_centr_end = cvPoint(width/2,0);
     	        CvPoint near_sample_start = cvPoint(width/2,height- sample_near);
@@ -167,12 +167,12 @@ namespace msv {
     	        CvPoint near_sample_left_end ;
     	        CvPoint far_sample_start = cvPoint(width/2,height- sample_far);
     	        CvPoint far_sample_end ;
-    	       
-    	        
-       
+
+
+
 
         //TODO: Start here.
-        
+
         int right_near = 0;
         int right_far = 0;
         int left_near=0;
@@ -180,63 +180,63 @@ namespace msv {
         int left_mid2=0;
         int left_mid3=0;
         // 1. Do something with the image m_image here, for example: find lane marking features, optimize quality, ...
-        // find right distance 
-        //  I (x, y) ~ ((unsigned char*) (img-> imageData + img-> widthStep * y)) [x]        3 chanel     
+        // find right distance
+        //  I (x, y) ~ ((unsigned char*) (img-> imageData + img-> widthStep * y)) [x]        3 chanel
         double left_range = 0.7; // (0,0.5)
-        while((image + step * (height- sample_near)) [(width/2+right_near)*3]==0 && right_near < width/2 ){ right_near ++;} 
+        while((image + step * (height- sample_near)) [(width/2+right_near)*3]==0 && right_near < width/2 ){ right_near ++;}
         while((image + step * (height- sample_far)) [(width/2+right_far)*3]==0 && right_far < width/2 ) {right_far++; }
         while((image + step * (height- sample_near)) [(width/2-left_near)*3]==0 && left_near < width*left_range+1 ){ left_near ++;}
         while((image + step * (height- sample_mid)) [(width/2-left_mid)*3]==0 && left_mid < width*left_range +1 ){ left_mid ++;}
         while((image + step * (height- sample_mid2)) [(width/2-left_mid2)*3]==0 && left_mid2 < width*left_range+1  ){ left_mid2 ++;}
         while((image + step * (height- sample_mid3)) [(width/2-left_mid3)*3]==0 && left_mid3 < width*left_range +1 ){ left_mid3 ++;}
         if (right_near >= width/2){ // near vision lost
-        	near_lost = 1;  	   
+        	near_lost = 1;
         }
         else {
-        	near_lost = 0; 
+        	near_lost = 0;
         }
-        
+
         if (right_far >= width/4){ // far vision lost
-                	far_lost = 1;  	   
+                	far_lost = 1;
                 }
                 else {
-                	far_lost = 0; 
+                	far_lost = 0;
                 }
-        
+
         if (left_near  >= width*left_range){ // near vision lost left
-        			near_lost_left = 1;  	   
+        			near_lost_left = 1;
                   }
                  else {
-                        	near_lost_left = 0; 
+                        	near_lost_left = 0;
                   }
         if (left_mid  >= width*left_range){ // mid vision lost left
-               	mid_lost_left = 1;  	   
+               	mid_lost_left = 1;
                 }
                 else {
-                mid_lost_left = 0; 
+                mid_lost_left = 0;
                 }
         if (left_mid2  >= width*left_range){ // mid vision lost left
-                      	mid2_lost_left = 1;  	   
+                      	mid2_lost_left = 1;
                        }
                        else {
-                       mid2_lost_left = 0; 
+                       mid2_lost_left = 0;
                        }
         if (left_mid3  >= width*left_range){ // mid vision lost left
-                              	mid3_lost_left = 1;  	   
+                              	mid3_lost_left = 1;
                                }
                                else {
-                               mid3_lost_left = 0; 
+                               mid3_lost_left = 0;
                                }
-        
+
         // state machine
-        
+
        if (near_lost){
     	   cout << "near lost"<<endl;
        }
        else{
     	   cout << "right_near:"<< right_near<<endl;
        }
-       
+
        if (far_lost){
           	   cout << "far lost"<<endl;
              }
@@ -262,52 +262,56 @@ namespace msv {
                       cvWaitKey(10);
                   }
               }
-       
+
         // 2. Calculate desired steering commands from your image features to be processed by driver.
        double difference;
-		if (follow_right){ //following right lane
+		if (follow_right) { //following right lane
+
+										if (!near_lost) {
+											difference = (right_near - desired_right_near) * k;
+											intersection_protect = 0;
+
+										}
+										else {     // near lost
+														if (!(near_lost_left && mid_lost_left && mid2_lost_left && mid3_lost_left) &&
+															!intersection_protect) {                //intersection mode !far_lost &&
+															difference = max_right;
+														}
 
 
-       if (!near_lost){
-    	   difference = (  right_near-desired_right_near) *k ;
-    	   intersection_protect = 0;
-    	   
-       } 
-       else{   	 // near lost  
-    	   if (!(near_lost_left&& mid_lost_left &&mid2_lost_left&&mid3_lost_left)&& !intersection_protect){ 				//intersection mode !far_lost && 
-    		   difference = max_right;
-    		   
-    	   }
-    	   else{
-    		   
-    		   difference = (  right_far-desired_right_far) *k ; 
-    		   intersection_protect = 1;
-    	   }
-       }
-       
-       if (difference < max_left) difference = max_left;
-       else if ( difference > max_right) difference = max_right;
+												   else{
+
+													   difference = (  right_far-desired_right_far) *k ;
+													   intersection_protect = 1;
+												   }
+								   }
+
+
 		}
-
 
 		else{ //following left  lane
+			cout << "L E F T T  T T T T"<< endl;
 			if (near_lost_left){
-//				if( mid2_lost_left && mid3_lost_left){ //intersection
-//					difference = 0;//do no thing
-//				}
-//				else{ // attempt to go to left lane
+//
 					difference = max_left;
+			}
+			else{
+//				if( mid_lost_left ||  mid2_lost_left || mid3_lost_left){ //intersection // if it detects dashed lines, it goes to left lane.
+//					difference = max_left;//do no thing
+//				}else{
+					difference =  -(  left_near - desired_left_near) *k ;
 //				}
 
-				}
-			else{
-				difference =  -(  left_near - desired_left_near) *k ;
 			}
 
-			if (difference < max_left) difference = max_left;
-			else if ( difference > max_right) difference = max_right;
+
 		}
-        
+
+
+
+		if (difference < max_left) difference = max_left;
+		else if ( difference > max_right) difference = max_right;
+
         // Here, you see an example of how to send the data structure SteeringData to the ContainerConference. This data structure will be received by all running components. In our example, it will be processed by Driver. To change this data structure, have a look at Data.odvd in the root folder of this source.
         SteeringData sd;
         sd.setExampleData(difference);
@@ -342,7 +346,7 @@ namespace msv {
         player = new Player(url, AUTO_REWIND, MEMORY_SEGMENT_SIZE, NUMBER_OF_SEGMENTS);
 */
 
-        
+
 	    while (getModuleState() == ModuleState::RUNNING) {
 		    bool has_next_frame = false;
 

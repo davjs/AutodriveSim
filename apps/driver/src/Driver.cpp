@@ -34,6 +34,9 @@ namespace msv {
     using namespace core::data::control;
     using namespace core::data::environment;
 
+
+
+
     Driver::Driver(const int32_t &argc, char **argv) :
             ConferenceClientModule(argc, argv, "Driver") {
     }
@@ -53,24 +56,27 @@ namespace msv {
 
 
         int angle; // in degrees
-//        double front_Right_Sonic;
-//        double front_Center_Sonic;
+       //double front_Right_Sonic;
+        double front_Center_Sonic;
         double infraRightRear;
-        double infraRightFront;
+//        double infraRightFront;
 //        double infra_Rear;
-        bool right_clear = false;
+        bool right_clear;
         bool overtake = false;
         double steerAngle = 0;
         bool is_Right_Lane = true;
-        const int min_Distance = 10;
-        const int max_Right_Angle = 25;
-        const int max_Left_Angle = -25;
-        const int min_RightSpace = 5;
-        int distance_To_Obstacle = 0;
+        const int min_Distance = 5; //15
+        const int count =50;
+        const int max_Right_Angle = 25; //25
+        const int max_Left_Angle = -25; // -25
+        const int min_RightSpace = 5; //3 original
+        int turningCounter = count ;
+        int distance_To_Obstacle = 0; //= 0
         string mode = " ";
         LaneConfig lc;
         lc.setCmd(is_Right_Lane);
-
+        //int distToObstacle = 0;
+       // bool intersectionFound = false;
 
         while (getModuleState() == ModuleState::RUNNING) {
             // In the following, you find example for the various data sources that are available:
@@ -102,51 +108,85 @@ namespace msv {
 
             //update data
             angle = sd.getExampleData(); // in degrees
-//            front_Right_Sonic = sbd.getValueForKey_MapOfDistances(4);
+          // front_Right_Sonic = sbd.getValueForKey_MapOfDistances(4);
 //            infra_Rear = sbd.getValueForKey_MapOfDistances(1);
-//            front_Center_Sonic = sbd.getValueForKey_MapOfDistances(3);
+            front_Center_Sonic = sbd.getValueForKey_MapOfDistances(3);
             infraRightRear = sbd.getValueForKey_MapOfDistances(2);
-            infraRightFront = sbd.getValueForKey_MapOfDistances(0);
-
-            if (infraRightRear > min_RightSpace && infraRightFront > min_RightSpace) {
-                right_clear = true;
-            }
-
-
+           // infraRightFront = sbd.getValueForKey_MapOfDistances(0);
+            distance_To_Obstacle = front_Center_Sonic;
+            //cout << " distance_To_Obstacle" << distance_To_Obstacle<<endl;
+            cout << " infraRightRear  " << infraRightRear<<endl;
+            right_clear =  (infraRightRear <0 || infraRightRear > min_RightSpace );  // && (infraRightFront < 0 || infraRightFront > min_RightSpace)
 
             // state machine
             if (is_Right_Lane) {
-
-                if (distance_To_Obstacle < min_Distance) { // normal mode
-                    cerr << " L A N E  F O L L O W I N G" << endl;
+                if (distance_To_Obstacle < 0 || distance_To_Obstacle > min_Distance ) { // normal mode distance_To_Obstacle < 0
+                    cout << " distance_To_Obstacle" << distance_To_Obstacle << endl;
                     //is_Right_Lane = true; //ibti
                     steerAngle = angle;
+                    mode = " L A N E  F O L L O W I N G";
+
                 }
-
                 else {  // overtake
-                    vc.setSpeed(1);
-                    steerAngle = max_Left_Angle;
-                    lc.setCmd(false);
-                    overtake = true;
-                    right_clear = false;
-                    is_Right_Lane = false;
-
+                   // vc.setSpeed;
+                    if(turningCounter > 0){
+                        vc.setSpeed(1);
+                        steerAngle = max_Left_Angle;
+                        turningCounter--;
+                        mode =  " S T A R T O V E R T A K E ";
+                    }
+                    else{
+                        vc.setSpeed(1);
+                        is_Right_Lane = false;
+                        lc.setCmd(is_Right_Lane);
+                        steerAngle = angle;
+                        mode =  " L E F T L A N E ";
+                        turningCounter = count ;
+                    };
                 }
             }
             else {   // during overtaking
+                mode =  " O V E R T A K I N G ";
+                vc.setSpeed(1);
+                steerAngle = angle;
+                if (!right_clear ){
+                    overtake = true;
+                    mode =  " PASSING THE CAR ";
+                }
+                if(overtake) {//turn back //ibti  right_clear &&
+                    //steerAngle = max_Right_Angle;
+                    if(turningCounter > 0){
+                        steerAngle = max_Right_Angle;
+//                    overtake = false;
+                        turningCounter--;
+                        mode =  " T U R N B A C K  ";
+                    }
+                    else{
+                        is_Right_Lane = true;
+                        lc.setCmd(is_Right_Lane);
+                        steerAngle = angle;
+                        mode =  " R I G H T  L A N E ";
+                        turningCounter = count ;
+                    };
 
-                if(right_clear && overtake) {//turn back //ibti
-                    steerAngle = max_Right_Angle;
-                    lc.setCmd(true);
+
+
+ //                   lc.setCmd(true);
 //                while(right_clear && overtake) {//turn back
 //                    steerAngle = max_Right_Angle;
 //                    lc.setCmd(true);
+//                    overtake = false;
+//                    mode =  " T U R N B A C K  ";
+//                    is_Right_Lane = true;
+
 
                 }
-                overtake = false;
-                is_Right_Lane = true;
-            }
 
+            }
+                cout << mode << endl;
+            cout << " counter_1              " << turningCounter<<endl;
+            cout << " is_Right_Lane_1         " << is_Right_Lane<<endl;
+            cout << " S T E E R" << steerAngle<<endl;
             // You can also turn on or off various lights:
             vc.setBrakeLights(false);
             vc.setLeftFlashingLights(false);
@@ -159,12 +199,7 @@ namespace msv {
             // Send container.
             getConference().send(c);
 
-            //LaneConfig lc;
-            //lc.toString();
-            // LaneConfig lc;
-            lc.setCmd(false);
-//            lc.setCmd(true); //ibti
-//            // Create container for finally sending the data.
+
             Container cmd(Container::USER_DATA_9, lc);
 //            // Send container.
             getConference().send(cmd);
