@@ -20,7 +20,10 @@ global.car = Scenarios/Models/FordEscape.objx
 #global.scenario = file://Scenarios/NoObstacles_StopLines.scnx
 
 #parking scenarios
-global.scenario = file://Scenarios/SEM_Parking_Perpendicular_Simple.scnx
+#global.scenario = file://Scenarios/SEM_Parking_Perpendicular_Simple.scnx
+#global.scenario = file://Scenarios/Parking-easy.scnx
+#global.scenario = file://Scenarios/Parking-medium.scnx
+global.scenario = file://Scenarios/Parking-hard.scnx
 #global.scenario = file://Scenarios/SEM_Parking_Perpendicular_Advanced.scnx
 #global.scenario = file://Scenarios/SEM_Parking_Parallel_Simple.scnx
 #global.scenario = file://Scenarios/SEM_Parking_Parallel_Advanced.scnx
@@ -182,9 +185,9 @@ proxy.camera.bpp = 3
 #
 # CONFIGURATION FOR VEHICLE
 #
-Vehicle.posX = 0                     # Initial position X in cartesian coordinates.
-Vehicle.posY = 0                     # Initial position Y in cartesian coordinates.
-Vehicle.headingDEG = 90
+Vehicle.posX = -45                     # Initial position X in cartesian coordinates.
+Vehicle.posY = -10                     # Initial position Y in cartesian coordinates.
+Vehicle.headingDEG = 0
 Vehicle.model=LinearBicycleModelNew  # Which motion model to be used: LinearBicycleModelNew or LinearBicycleModel (for CaroloCup 2013!).
 Vehicle.LinearBicycleModelNew.withSpeedController=1          # iff 1: use the VehicleControl.m_speed field; otherwise, ignore m_speed and use VehicleControl.m_acceleration field
 Vehicle.LinearBicycleModelNew.minimumTurningRadiusLeft=4.85  # Minimum turning radius to the left (for calculating maximum steering angle to the left); Attention! we used data from the miniature vehicle Meili and thus, all values are scaled by factor 10 to be compatible with the simulation!

@@ -33,7 +33,7 @@
 #include "../Autodrive/Include/autodrive.hpp"
 #include "AutodriveSim.hpp"
 
-const int maxSpeed = 7; // 2 is the normal speed for the simulator
+const int maxSpeed = 5; // 2 is the normal speed for the simulator
 
 namespace msv {
 
@@ -56,7 +56,7 @@ namespace msv {
 
     void AutodriveSim::setUp() {
 	    // This method will be call automatically _before_ running body().
-        Autodrive::SensorData::setCarLength(7);
+        Autodrive::SensorData::setCarLength(4);
         Autodrive::setInitialStatus(Autodrive::DETECTING_GAP);
     }
 
@@ -134,11 +134,54 @@ namespace msv {
         Autodrive::SensorData::encoderPulses = vd.getAbsTraveledPath();
         Autodrive::SensorData::gyroHeading = vd.getHeading() * Constants::RAD2DEG;
     }
+    std::string getManeuver()
+    {
+        switch(Autodrive::Parking::currentManeuver.type)
+        {
+            case Autodrive::NO_MANEUVER:
+                return "NO_MANEUVER";
+            case Autodrive::PARALLEL_STANDARD:
+                return "PARALLEL_STANDARD";
+            case Autodrive::PARALLEL_WIDE:
+                return "PARALLEL_WIDE";
+            case Autodrive::PERPENDICULAR_STANDARD:
+                return "PERPENDICULAR_STANDARD";
+            default:
+                return "ERR";
+        }
+    }
+    
+    std::string getManeuverState()
+    {
+        switch(Autodrive::Parking::currentManeuver.currentState)
+        {
+            case Autodrive::maneuver::mState::NOT_MOVING:
+                return "NOT_MOVING";
+            case Autodrive::maneuver::mState::FORWARD:
+                return "FORWARD";
+            case Autodrive::maneuver::mState::BACKWARD:
+                return "BACKWARD";
+            case Autodrive::maneuver::mState::FORWARD_RIGHT:
+                return "FORWARD_RIGHT";
+            case Autodrive::maneuver::mState::BACKWARD_RIGHT:
+                return "BACKWARD_RIGHT";
+            case Autodrive::maneuver::mState::FORWARD_LEFT:
+                return "FORWARD_LEFT";
+            case Autodrive::maneuver::mState::BACKWARD_LEFT:
+                return "BACKWARD_LEFT";
+            case Autodrive::maneuver::mState::DONE:
+                return "DONE";
+            default:
+                return "ERR";
+        }
+    }
     /* ---------------------------------------------------------------------- */  
     /* ---------------------------------------------------------------------- */
     // You should start your work in this method.
     void AutodriveSim::drive() {
-    
+        
+        int simSpeed = 0;
+        
         updateAutodriveData();
 
         /*  ----- RESIZE AND DISPLAY IMAGE ----- */
@@ -157,17 +200,24 @@ namespace msv {
         // sensor data
         std::cerr << "Distance front right infrared '" << Autodrive::SensorData::infrared.frontright << "'" << std::endl;
         std::cerr << "Distance rear rigth infrared '" << Autodrive::SensorData::infrared.rearright << "'" << std::endl;
+        std::cerr << "Distance rear infrared '" << Autodrive::SensorData::infrared.rear << "'" << std::endl;
         
         std::cerr << "GapLength '" << Autodrive::Parking::gapLength << "'" << std::endl;
-        //std::cerr << "Distance front ultrasonic '" << Autodrive::SensorData::usFront << "'" << std::endl;
-        //std::cerr << "Distance front right ultrasonic '" << Autodrive::SensorData::usFrontRight << "'" << std::endl;
-        //std::cerr << "Gap length '" << Autodrive::Parking::gapLength << "'" << std::endl;
-
+        std::cerr << "Ultrasound front '" << Autodrive::SensorData::ultrasound.front << "'" << std::endl;
+        std::cerr << "Distance front right ultrasonic '" << Autodrive::SensorData::ultrasound.frontright << "'" << std::endl;
+        
+        std::cerr << "Gap Depth OK '" << Autodrive::Parking::gapDepthOk << "'" << std::endl;
+        std::cerr << "INITIAL GAP '" << Autodrive::Parking::initialGap << "'" << std::endl;
         // vehicle data
         //std::cerr << "speed: "<< Autodrive::getSpeed() << std::endl;
-        //std::cerr << "Heading '" << Autodrive::SensorData::currentAngle << "'" << std::endl;
+        std::cerr << "Heading '" << Autodrive::Status::currentAngle << "'" << std::endl;
+        std::cerr << "Remaining Angle '" << Autodrive::Status::remainingAngle << "'" << std::endl;
+        std::cerr << "Maneuver '" << getManeuver() << "'" << std::endl;
+        std::cerr << "Maneuver state '" << getManeuverState() << "'" << std::endl;
+        
+        
+       
         //std::cerr << "Heading Start '" << Autodrive::Parking::headingStart << "'" << std::endl;
-        //std::cout << "speed: "<< Autodrive::getSpeed() << std::endl;
         /* ---------------------------------------------------------------------- */
     
         // Run autodrive
@@ -177,8 +227,20 @@ namespace msv {
         if(Autodrive::speedChanged()|| Autodrive::angleChanged()){//Only send packets when nescecary
             
             // With setSpeed you can set a desired speed for the vehicle in the range of -2.0 (backwards) .. 0 (stop) .. +2.0 (forwards)
-            if(Autodrive::speedChanged())
-                vc.setSpeed(Autodrive::getSpeed() * maxSpeed);
+            if(Autodrive::speedChanged()){
+                    simSpeed = Autodrive::getSpeed() * maxSpeed;
+                    
+                // makes sure the values passed are caped at 2 and -2    
+                if(simSpeed > 2){
+                     vc.setSpeed(2);
+                }else if(simSpeed < -2){
+                    vc.setSpeed(-1);
+                }else{
+                    vc.setSpeed(simSpeed);
+                }
+            }
+                
+               
             // With setSteeringWheelAngle, you can steer in the range of -26 (left) .. 0 (straight) .. +25 (right)
             if(Autodrive::angleChanged())
                 vc.setSteeringWheelAngle(Autodrive::getAngle());
