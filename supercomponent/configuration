@@ -17,9 +17,9 @@
 #
 global.car = Scenarios/Models/FordEscape.objx
 #global.car = Scenarios/Models/RedRocketCar.objx
-#global.scenario = file://Scenarios/NoObstacles_StopLines.scnx
+global.scenario = file://Scenarios/NoObstacles_StopLines.scnx
 #global.scenario = file://Scenarios/ObstacleOnStraightRoad.scnx
-global.scenario = file://Scenarios/ObstacleInFirstCurve.scnx
+#global.scenario = file://Scenarios/ObstacleInFirstCurve.scnx
 #global.scenario = file://Scenarios/SEM_Test_Track_Overtaking_Curves.scnx
 #global.scenario = file://Scenarios/SEM_Test_Track.scnx
 #global.scenario = file://Scenarios/SEM_Test_Track_ObstaclesAtIntersection.scnx

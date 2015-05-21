@@ -50,27 +50,7 @@ namespace msv {
 
     // This method will do the main data processing job.
     ModuleState::MODULE_EXITCODE Driver::body() {
-
-
-        int angle; // in degrees
-//        double front_Right_Sonic;
-//        double front_Center_Sonic;
-        double infraRightRear;
-        double infraRightFront;
-//        double infra_Rear;
-        bool right_clear = false;
-        bool overtake = false;
         double steerAngle = 0;
-        bool is_Right_Lane = true;
-        const int min_Distance = 10;
-        const int max_Right_Angle = 25;
-        const int max_Left_Angle = -25;
-        const int min_RightSpace = 5;
-        int distance_To_Obstacle = 0;
-        string mode = " ";
-        LaneConfig lc;
-        lc.setCmd(is_Right_Lane);
-
 
         while (getModuleState() == ModuleState::RUNNING) {
             // In the following, you find example for the various data sources that are available:
@@ -91,85 +71,26 @@ namespace msv {
             SteeringData sd = containerSteeringData.getData<SteeringData>();
             cerr << "Most recent steering data: '" << sd.toString() << "'" << endl;
 
-            cerr << "Current state '" << mode << "'" << endl;
             // Design your control algorithm here depending on the input data from above.
             // Create vehicle control data.
             VehicleControl vc;
-            TimeStamp ts;
 
             // With setSpeed you can set a desired speed for the vehicle in the range of -2.0 (backwards) .. 0 (stop) .. +2.0 (forwards)
             vc.setSpeed(2);
 
             //update data
-            angle = sd.getExampleData(); // in degrees
-//            front_Right_Sonic = sbd.getValueForKey_MapOfDistances(4);
-//            infra_Rear = sbd.getValueForKey_MapOfDistances(1);
-//            front_Center_Sonic = sbd.getValueForKey_MapOfDistances(3);
-            infraRightRear = sbd.getValueForKey_MapOfDistances(2);
-            infraRightFront = sbd.getValueForKey_MapOfDistances(0);
-
-            if (infraRightRear > min_RightSpace && infraRightFront > min_RightSpace) {
-                right_clear = true;
-            }
-
-
-
-            // state machine
-            if (is_Right_Lane) {
-
-                if (distance_To_Obstacle < min_Distance) { // normal mode
-                    cerr << " L A N E  F O L L O W I N G" << endl;
-                    //is_Right_Lane = true; //ibti
-                    steerAngle = angle;
-                }
-
-                else {  // overtake
-                    vc.setSpeed(1);
-                    steerAngle = max_Left_Angle;
-                    lc.setCmd(false);
-                    overtake = true;
-                    right_clear = false;
-                    is_Right_Lane = false;
-
-                }
-            }
-            else {   // during overtaking
-
-                if(right_clear && overtake) {//turn back //ibti
-                    steerAngle = max_Right_Angle;
-                    lc.setCmd(true);
-//                while(right_clear && overtake) {//turn back
-//                    steerAngle = max_Right_Angle;
-//                    lc.setCmd(true);
-
-                }
-                overtake = false;
-                is_Right_Lane = true;
-            }
+            steerAngle = sd.getExampleData(); // in degrees
 
             // You can also turn on or off various lights:
             vc.setBrakeLights(false);
             vc.setLeftFlashingLights(false);
             vc.setRightFlashingLights(false);
 
-
             vc.setSteeringWheelAngle(steerAngle * Constants::DEG2RAD);
             // Create container for finally sending the data.
             Container c(Container::VEHICLECONTROL, vc);
             // Send container.
             getConference().send(c);
-
-            //LaneConfig lc;
-            //lc.toString();
-            // LaneConfig lc;
-            lc.setCmd(false);
-//            lc.setCmd(true); //ibti
-//            // Create container for finally sending the data.
-            Container cmd(Container::USER_DATA_9, lc);
-//            // Send container.
-            getConference().send(cmd);
-
-
         }
         return
         ModuleState::OKAY;
