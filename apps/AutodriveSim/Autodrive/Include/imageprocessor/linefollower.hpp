@@ -54,7 +54,7 @@ namespace Autodrive
         {
             if(!isFound())
                 return targetRoadDistance;
-            float startDistance = roadLine.getMeanStartDistance(5);
+            float startDistance = roadLine.getMeanStartDistance(4);
             return (startDistance - targetRoadDistance) * 1.1f;
 
         }

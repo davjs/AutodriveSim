@@ -19,7 +19,7 @@ namespace Autodrive
         // Every pixel in a line can not have an angle from the previous pixel that deviates more than this
         float maxAngleDiff = 0.8f; // 0.4 - 1.4
         // N Frames to take the mean value from
-        uint smoothening = 4; // 0 - 8v
+        uint smoothening = 6; // 0 - 8v
 
         // PID SETTINGS
         float kp = 0.5;
