@@ -33,7 +33,7 @@
 #include "../Autodrive/Include/autodrive.hpp"
 #include "AutodriveSim.hpp"
 
-const int maxSpeed = 7; // 2 is the normal speed for the simulator
+const int maxSpeed = 10; // 2 is the normal speed for the simulator
 
 namespace msv {
 
@@ -73,7 +73,7 @@ namespace msv {
 	    if (c.getDataType() == Container::SHARED_IMAGE) {
 		    SharedImage si = c.getData<SharedImage> ();
 
-		    // Check if we have already attached to the shared memory.
+		    // Check if we have 1already attached to the shared memory.
 		    if (!m_hasAttachedToSharedImageMemory) {
 			    m_sharedImageMemory
 					    = core::wrapper::SharedMemoryFactory::attachToSharedMemory(
@@ -144,14 +144,9 @@ namespace msv {
         /*  ----- RESIZE AND DISPLAY IMAGE ----- */
         Mat frame = cv::cvarrToMat(m_image);
         cv::Mat copy;
+        //cv::resize(frame,copy,cv::Size(320,240));
         cv::resize(frame,copy,cv::Size(240,135));
         Autodrive::SensorData::image = &copy;
-        cv::resize(copy,frame,cv::Size(640,480));
-        if (m_debug) {
-            if (m_image != NULL) {
-                imshow("opencv_eye", frame);
-            }
-        }
 
         /* ----------------------------------- Debug ---------------------------- */
         // sensor data
@@ -173,6 +168,13 @@ namespace msv {
         // Run autodrive
         Autodrive::drive();
     
+        cv::resize(copy,frame,cv::Size(640,480));
+        if (m_debug) {
+            if (m_image != NULL) {
+                imshow("opencv_eye", frame);
+                cv::waitKey(10);
+            }
+        }
         /* ------------------------- Vehicle Control ---------------------------- */
         if(Autodrive::speedChanged()|| Autodrive::angleChanged()){//Only send packets when nescecary
             

@@ -17,7 +17,7 @@
 #
 global.car = Scenarios/Models/FordEscape.objx
 #global.car = Scenarios/Models/RedRocketCar.objx
-#global.scenario = file://Scenarios/NoObstacles_StopLines.scnx
+global.scenario = file://Scenarios/NoObstacles_StopLines.scnx
 
 #parking scenarios
 #global.scenario = file://Scenarios/SEM_Parking_Perpendicular_Simple.scnx
@@ -28,7 +28,7 @@ global.car = Scenarios/Models/FordEscape.objx
 #global.scenario = file://Scenarios/Parking-sideways.scnx
 
 #overtaking scenarios
-global.scenario = file://Scenarios/ObstacleOnStraightRoad.scnx
+#global.scenario = file://Scenarios/ObstacleOnStraightRoad.scnx
 #global.scenario = file://Scenarios/ObstacleInFirstCurve.scnx
 #global.scenario = file://Scenarios/ObstaclesAtIntersections_StopLines.scnx
 
@@ -144,7 +144,7 @@ egocontroller.rotZ = 90
 egocontroller.LinearBicycleModelNew.minimumTurningRadiusLeft=4.85  # Minimum turning radius to the left (for calculating maximum steering angle to the left); Attention! we used data from the miniature vehicle Meili and thus, all values are scaled by factor 10 to be compatible with the simulation!
 egocontroller.LinearBicycleModelNew.minimumTurningRadiusRight=5.32 # Minimum turning radius to the right (for calculating maximum steering angle to the right); Attention! we used data from the miniature vehicle Meili and thus, all values are scaled by factor 10 to be compatible with the simulation!
 egocontroller.LinearBicycleModelNew.wheelbase=2.65                 # Wheelbase; Attention! we used data from the miniature vehicle Meili and thus, all values are scaled by factor 10 to be compatible with the simulation!
-egocontroller.LinearBicycleModelNew.maxSpeed=2.0                   # maxium speed in m/ss
+egocontroller.LinearBicycleModelNew.maxSpeed=10.0                   # maxium speed in m/ss
 
 
 #
@@ -196,7 +196,7 @@ Vehicle.LinearBicycleModelNew.minimumTurningRadiusLeft=4.85  # Minimum turning r
 Vehicle.LinearBicycleModelNew.minimumTurningRadiusRight=5.32 # Minimum turning radius to the right (for calculating maximum steering angle to the right); Attention! we used data from the miniature vehicle Meili and thus, all values are scaled by factor 10 to be compatible with the simulation!
 Vehicle.LinearBicycleModelNew.wheelbase=2.65                 # Wheelbase; Attention! we used data from the miniature vehicle Meili and thus, all values are scaled by factor 10 to be compatible with the simulation!
 Vehicle.LinearBicycleModelNew.invertedSteering=0             # iff 0: interpret neg. steering wheel angles as steering to the left; iff 1: otherwise
-Vehicle.LinearBicycleModelNew.maxSpeed=2.0                   # maxium speed in m/ss
+Vehicle.LinearBicycleModelNew.maxSpeed=10.0                   # maxium speed in m/ss
 Vehicle.LinearBicycleModel.minimumTurningRadius=4.24    # Minimum turning radius in m.
 Vehicle.LinearBicycleModel.vehicleMass=1700.0           # Mass in kg.
 Vehicle.LinearBicycleModel.adherenceCoefficient=100.0   # N per MPS (squared).

@@ -13,8 +13,8 @@ namespace Autodrive
 
         int FindCarEnd(const cv::Mat& cannied)
         {
-            POINT center_bottom(centerX, cannied.size().height - 5);
-            //SEARCH UPWARDS UNTIL _NOT_ HIT ON THE CENTER +/- 10
+            POINT center_bottom(centerX, cannied.size().height);
+            /*//SEARCH UPWARDS UNTIL _NOT_ HIT ON THE CENTER +/- 10
             bool hit = true;
             while (hit)
             {
@@ -23,7 +23,7 @@ namespace Autodrive
                 if (hit)
                     center_bottom.y--;
             }
-            center_bottom.y--;
+            center_bottom.y--;*/
             return center_bottom.y;
         }
 
@@ -61,8 +61,8 @@ namespace Autodrive
             POINT rightLineStart = FindLineStart(cannied, Direction::RIGHT);
             POINT leftLineStart = FindLineStart(cannied, Direction::LEFT);
 
-            leftLineFollower = make_unique<linefollower>(cannied, leftLineStart, centerX);
-            rightLineFollower = make_unique<linefollower>(cannied, rightLineStart, centerX);
+            leftLineFollower = make_unique<linefollower>(cannied, leftLineStart, centerX,carY);
+            rightLineFollower = make_unique<linefollower>(cannied, rightLineStart, centerX,carY);
         }
 
 
@@ -75,18 +75,18 @@ namespace Autodrive
 
             drawMat = draw(cannied);
 
-            //optional<int> leftTargetAngle = leftLineFollower->getPreferedAngle();
+            optional<int> leftTargetAngle = leftLineFollower->getPreferedAngle();
             optional<int> rightTargetAngle = rightLineFollower->getPreferedAngle();
             optional<int> targetAngle = nullptr;
 
-            /*if (leftTargetAngle && rightTargetAngle && Settings::useLeftLine)
+            if (leftTargetAngle && rightTargetAngle && Settings::useLeftLine)
             {
                 // Give the right line just a bit more priority since it seems more reliable
-                targetAngle = weighted_average(*rightTargetAngle, *leftTargetAngle, 3);
+                targetAngle = (*rightTargetAngle + *leftTargetAngle) / 2;
             } else if (leftTargetAngle && Settings::useLeftLine)
             {
                 targetAngle = *leftTargetAngle;
-            } else*/ if (rightTargetAngle)
+            } else if (rightTargetAngle)
             {
                 targetAngle = *rightTargetAngle;
             }
