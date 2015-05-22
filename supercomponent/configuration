@@ -17,7 +17,7 @@
 #
 global.car = Scenarios/Models/FordEscape.objx
 #global.car = Scenarios/Models/RedRocketCar.objx
-global.scenario = file://Scenarios/NoObstacles_StopLines.scnx
+#global.scenario = file://Scenarios/NoObstacles_StopLines.scnx
 #global.scenario = file://Scenarios/ObstacleOnStraightRoad.scnx
 #global.scenario = file://Scenarios/ObstacleInFirstCurve.scnx
 #global.scenario = file://Scenarios/SEM_Test_Track_Overtaking_Curves.scnx
@@ -27,12 +27,10 @@ global.scenario = file://Scenarios/NoObstacles_StopLines.scnx
 #global.scenario = file://Scenarios/ObstaclesAtIntersections_StopLines.scnx
 #global.scenario = file://Scenarios/SEM_Test_Track_Overtaking_Curves.scnx
 #global.scenario = file://Scenarios/SEM_Test_Track_Overtaking_Curves.scnx
-
-
-
-
-
-
+global.scenario = file://Scenarios/Overtaking-easy.scnx
+#global.scenario = file://Scenarios/Overtaking-medium.scnx
+#global.scenario = file://Scenarios/Overtaking-hard.scnx
+#global.scenario = file://Scenarios/No-obstacles.scnx
 global.showGrid = 0
 
 # The following attributes define the buffer sizes for recording and replaying.
