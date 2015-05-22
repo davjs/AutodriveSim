@@ -52,99 +52,80 @@ namespace msv {
     // This method will do the main data processing job.
     ModuleState::MODULE_EXITCODE Driver::body() {
         double steerAngle = 0;
-	int overtaking = 0;
-	int obstacleMet = 0;
-	int finaliseOvertaking = 0;
-	int calibrateToLane = 0;
-	//int straightLineThreshold = 50;
-	//int straightLineProgress = 0;
-	//int isStraightLine = 0;
-	//int lastAngle = 0;
-	int laneSwitchingOffset = 5;
+        double overtaking = 0;
+        int obstacleMet = 0;
+        double finaliseOvertaking = 0;
+        double calibrateToLane = 0;
+        int laneSwitchingOffset = 5;
 
         while (getModuleState() == ModuleState::RUNNING) {
-		Container containerVehicleData = getKeyValueDataStore().get(Container::VEHICLEDATA);
-		VehicleData vd = containerVehicleData.getData<VehicleData>();
+            Container containerVehicleData = getKeyValueDataStore().get(Container::VEHICLEDATA);
+            VehicleData vd = containerVehicleData.getData<VehicleData>();
 
             Container containerSensorBoardData = getKeyValueDataStore().get(Container::USER_DATA_0);
             SensorBoardData sbd = containerSensorBoardData.getData<SensorBoardData>();
 
- Container containerSteeringData = getKeyValueDataStore().get(Container::USER_DATA_1);
+            Container containerSteeringData = getKeyValueDataStore().get(Container::USER_DATA_1);
             SteeringData sd = containerSteeringData.getData<SteeringData>();
 
             VehicleControl vc;
             LaneConfig lc;
 
-	double irFrontRight = sbd.getValueForKey_MapOfDistances(0);
-	//double irRightRear = sbd.getValueForKey_MapOfDistances(1);
-	double irRearRight = sbd.getValueForKey_MapOfDistances(2);
-	double usFrontCenter = sbd.getValueForKey_MapOfDistances(3);
-	//double usFrontRight = sbd.getValueForKey_MapOfDistances(4);
-	//double usRearRight = sbd.getValueForKey_MapOfDistances(5);
+            double irFrontRight = sbd.getValueForKey_MapOfDistances(0);
+            //double irRightRear = sbd.getValueForKey_MapOfDistances(1);
+            double irRearRight = sbd.getValueForKey_MapOfDistances(2);
+            double usFrontCenter = sbd.getValueForKey_MapOfDistances(3);
+            //double usFrontRight = sbd.getValueForKey_MapOfDistances(4);
+            //double usRearRight = sbd.getValueForKey_MapOfDistances(5);
 
-    //update data
-    steerAngle = sd.getExampleData(); // in degrees
+            //update data
+            steerAngle = sd.getExampleData(); // in degrees
 
-	// curve detection
-        /*
-	if (lastAngle <= steerAngle + 1 && lastAngle >= steerAngle - 1) {
-		if (straightLineProgress <= straightLineThreshold) straightLineProgress++;
-	} else {
-		straightLineProgress = 0;
-	}
+            vc.setSpeed(2);
 
-	if (straightLineProgress >= straightLineThreshold) isStraightLine = 1; else isStraightLine = 0;
+            if (usFrontCenter > 0 && usFrontCenter < 7) {
+                if (! overtaking) overtaking = vd.getAbsTraveledPath();
+            }
 
-	cout << ((isStraightLine) ? "straight line" : "curve line") << endl;
-	*/
-	vc.setSpeed(2);
+            if (overtaking) {
+                if ((vd.getAbsTraveledPath() - overtaking) <= laneSwitchingOffset) {
+                    steerAngle = -25;
+                } else {
+                    lc.setCmd(false);
+                }
 
-	if (usFrontCenter > 0 && usFrontCenter < 7) {
-		if (! overtaking) overtaking = vd.getAbsTraveledPath();
-	}
+                if (irRearRight > 0 && ! obstacleMet) obstacleMet = 1;
 
-	if (overtaking) {
-	 	if ((vd.getAbsTraveledPath() - overtaking) <= laneSwitchingOffset) {
-			steerAngle = -25;
-		} else {
-			lc.setCmd(false);
-		}
+                if (obstacleMet) {
+                    if (irFrontRight < 0) {
+                        overtaking = 0;
+                        obstacleMet = 0;
 
-		if (irRearRight > 0 && ! obstacleMet) obstacleMet = 1;
-		
-		if (obstacleMet) {
-			if (irFrontRight < 0) {
-				overtaking = 0;
-				obstacleMet = 0;
-			
-				if (! finaliseOvertaking) finaliseOvertaking = vd.getAbsTraveledPath();
-			}
-		}
-	}
+                        if (! finaliseOvertaking) finaliseOvertaking = vd.getAbsTraveledPath();
+                    }
+                }
+            }
 
-	if (finaliseOvertaking) {
-		if ((vd.getAbsTraveledPath() - finaliseOvertaking) < laneSwitchingOffset) {
-			steerAngle = 25;
-		} else {
-			if (! calibrateToLane) calibrateToLane = vd.getAbsTraveledPath();
+            if (finaliseOvertaking) {
+                if ((vd.getAbsTraveledPath() - finaliseOvertaking) < laneSwitchingOffset) {
+                    steerAngle = 25;
+                } else {
+                    if (! calibrateToLane) calibrateToLane = vd.getAbsTraveledPath();
 
-			if ((vd.getAbsTraveledPath() - calibrateToLane) < laneSwitchingOffset) {
-				steerAngle = -25;
-			} else {
-				lc.setCmd(true);
-				finaliseOvertaking = 0;
-				calibrateToLane = 0;
-			}
-		}
-	}
+                    if ((vd.getAbsTraveledPath() - calibrateToLane) < laneSwitchingOffset) {
+                        steerAngle = -25;
+                    } else {
+                        lc.setCmd(true);
+                        finaliseOvertaking = 0;
+                        calibrateToLane = 0;
+                    }
+                }
+            }
 
-	cout << "overtaking: " << overtaking << endl;
-	cout << "obstacleMet: " << obstacleMet << endl;
-	cout << "finaliseOvertaking: " << finaliseOvertaking << endl;
-	cout << "calibrateToLane: " << calibrateToLane << endl;
-
-//    	lastAngle = steerAngle;
-
+            cout << "overtaking: " << overtaking << endl;
+            cout << "obstacleMet: " << obstacleMet << endl;
+            cout << "finaliseOvertaking: " << finaliseOvertaking << endl;
+            cout << "calibrateToLane: " << calibrateToLane << endl;
 
             vc.setSteeringWheelAngle(steerAngle * Constants::DEG2RAD);
             // Create container for finally sending the data.
