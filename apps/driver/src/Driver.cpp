@@ -24,6 +24,7 @@
 #include "core/data/control/VehicleControl.h"
 #include "core/data/environment/VehicleData.h"
 #include "core/data/control/LaneConfig.h"
+#include <unistd.h>
 
 #include "GeneratedHeaders_Data.h"
 #include "Driver.h"
@@ -51,47 +52,110 @@ namespace msv {
     // This method will do the main data processing job.
     ModuleState::MODULE_EXITCODE Driver::body() {
         double steerAngle = 0;
+	int overtaking = 0;
+	int obstacleMet = 0;
+	int finaliseOvertaking = 0;
+	int calibrateToLane = 0;
+	//int straightLineThreshold = 50;
+	//int straightLineProgress = 0;
+	//int isStraightLine = 0;
+	//int lastAngle = 0;
+	int laneSwitchingOffset = 5;
 
         while (getModuleState() == ModuleState::RUNNING) {
-            // In the following, you find example for the various data sources that are available:
-            // 1. Get most recent vehicle data:
-            Container containerVehicleData = getKeyValueDataStore().get(Container::VEHICLEDATA);
-            VehicleData vd = containerVehicleData.getData<VehicleData>();
-            cerr << "Most recent vehicle data: '" << vd.toString() << "'" << endl;
-            // 2. Get most recent sensor board data:
+		Container containerVehicleData = getKeyValueDataStore().get(Container::VEHICLEDATA);
+		VehicleData vd = containerVehicleData.getData<VehicleData>();
+
             Container containerSensorBoardData = getKeyValueDataStore().get(Container::USER_DATA_0);
             SensorBoardData sbd = containerSensorBoardData.getData<SensorBoardData>();
-            cerr << "Most recent sensor board data: '" << sbd.toString() << "'" << endl;
-            // 3. Get most recent user button data:
-            Container containerUserButtonData = getKeyValueDataStore().get(Container::USER_BUTTON);
-            UserButtonData ubd = containerUserButtonData.getData<UserButtonData>();
-            cerr << "Most recent user button data: '" << ubd.toString() << "'" << endl;
-            // 4. Get most recent steering data as fill from lanedetector for example:
-            Container containerSteeringData = getKeyValueDataStore().get(Container::USER_DATA_1);
+
+ Container containerSteeringData = getKeyValueDataStore().get(Container::USER_DATA_1);
             SteeringData sd = containerSteeringData.getData<SteeringData>();
-            cerr << "Most recent steering data: '" << sd.toString() << "'" << endl;
 
-            // Design your control algorithm here depending on the input data from above.
-            // Create vehicle control data.
             VehicleControl vc;
+            LaneConfig lc;
 
-            // With setSpeed you can set a desired speed for the vehicle in the range of -2.0 (backwards) .. 0 (stop) .. +2.0 (forwards)
-            vc.setSpeed(2);
+	double irFrontRight = sbd.getValueForKey_MapOfDistances(0);
+	//double irRightRear = sbd.getValueForKey_MapOfDistances(1);
+	double irRearRight = sbd.getValueForKey_MapOfDistances(2);
+	double usFrontCenter = sbd.getValueForKey_MapOfDistances(3);
+	//double usFrontRight = sbd.getValueForKey_MapOfDistances(4);
+	//double usRearRight = sbd.getValueForKey_MapOfDistances(5);
 
-            //update data
-            steerAngle = sd.getExampleData(); // in degrees
+    //update data
+    steerAngle = sd.getExampleData(); // in degrees
 
-            // You can also turn on or off various lights:
-            vc.setBrakeLights(false);
-            vc.setLeftFlashingLights(false);
-            vc.setRightFlashingLights(false);
+	// curve detection
+        /*
+	if (lastAngle <= steerAngle + 1 && lastAngle >= steerAngle - 1) {
+		if (straightLineProgress <= straightLineThreshold) straightLineProgress++;
+	} else {
+		straightLineProgress = 0;
+	}
+
+	if (straightLineProgress >= straightLineThreshold) isStraightLine = 1; else isStraightLine = 0;
+
+	cout << ((isStraightLine) ? "straight line" : "curve line") << endl;
+	*/
+	vc.setSpeed(2);
+
+	if (usFrontCenter > 0 && usFrontCenter < 7) {
+		if (! overtaking) overtaking = vd.getAbsTraveledPath();
+	}
+
+	if (overtaking) {
+	 	if ((vd.getAbsTraveledPath() - overtaking) <= laneSwitchingOffset) {
+			steerAngle = -25;
+		} else {
+			lc.setCmd(false);
+		}
+
+		if (irRearRight > 0 && ! obstacleMet) obstacleMet = 1;
+		
+		if (obstacleMet) {
+			if (irFrontRight < 0) {
+				overtaking = 0;
+				obstacleMet = 0;
+			
+				if (! finaliseOvertaking) finaliseOvertaking = vd.getAbsTraveledPath();
+			}
+		}
+	}
+
+	if (finaliseOvertaking) {
+		if ((vd.getAbsTraveledPath() - finaliseOvertaking) < laneSwitchingOffset) {
+			steerAngle = 25;
+		} else {
+			if (! calibrateToLane) calibrateToLane = vd.getAbsTraveledPath();
+
+			if ((vd.getAbsTraveledPath() - calibrateToLane) < laneSwitchingOffset) {
+				steerAngle = -25;
+			} else {
+				lc.setCmd(true);
+				finaliseOvertaking = 0;
+				calibrateToLane = 0;
+			}
+		}
+	}
+
+	cout << "overtaking: " << overtaking << endl;
+	cout << "obstacleMet: " << obstacleMet << endl;
+	cout << "finaliseOvertaking: " << finaliseOvertaking << endl;
+	cout << "calibrateToLane: " << calibrateToLane << endl;
+
+//    	lastAngle = steerAngle;
+
 
             vc.setSteeringWheelAngle(steerAngle * Constants::DEG2RAD);
             // Create container for finally sending the data.
             Container c(Container::VEHICLECONTROL, vc);
             // Send container.
             getConference().send(c);
+
+            Container cmd(Container::USER_DATA_9, lc);
+            getConference().send(cmd);
         }
+
         return
         ModuleState::OKAY;
     }
