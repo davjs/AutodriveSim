@@ -25,6 +25,7 @@
 #include "core/data/environment/VehicleData.h"
 #include "core/data/control/LaneConfig.h"
 #include <unistd.h>
+#include <cmath>
 
 #include "GeneratedHeaders_Data.h"
 #include "Driver.h"
@@ -52,11 +53,16 @@ namespace msv {
     // This method will do the main data processing job.
     ModuleState::MODULE_EXITCODE Driver::body() {
         double steerAngle = 0;
-        double overtaking = 0;
+
+        double overtaking = -1;
         int obstacleMet = 0;
-        double finaliseOvertaking = 0;
-        double calibrateToLane = 0;
-        int laneSwitchingOffset = 5;
+        double finaliseOvertaking = -1;
+        double calibrateToLane = -1;
+
+        int objectDistance = 10;
+        double laneSwitchingOffset = 6;
+        int optimisedAngle = 20;
+
 
         while (getModuleState() == ModuleState::RUNNING) {
             Container containerVehicleData = getKeyValueDataStore().get(Container::VEHICLEDATA);
@@ -72,24 +78,22 @@ namespace msv {
             LaneConfig lc;
 
             double irFrontRight = sbd.getValueForKey_MapOfDistances(0);
-            //double irRightRear = sbd.getValueForKey_MapOfDistances(1);
             double irRearRight = sbd.getValueForKey_MapOfDistances(2);
             double usFrontCenter = sbd.getValueForKey_MapOfDistances(3);
-            //double usFrontRight = sbd.getValueForKey_MapOfDistances(4);
-            //double usRearRight = sbd.getValueForKey_MapOfDistances(5);
+            double usFrontRight = sbd.getValueForKey_MapOfDistances(4);
 
-            //update data
-            steerAngle = sd.getExampleData(); // in degrees
+
+            steerAngle = sd.getExampleData();
 
             vc.setSpeed(2);
 
-            if (usFrontCenter > 0 && usFrontCenter < 7) {
-                if (! overtaking) overtaking = vd.getAbsTraveledPath();
+            if (usFrontCenter > 0 && usFrontCenter < objectDistance && calibrateToLane <= 0) {
+                if (overtaking < 0) overtaking = vd.getAbsTraveledPath();
             }
 
-            if (overtaking) {
-                if ((vd.getAbsTraveledPath() - overtaking) <= laneSwitchingOffset) {
-                    steerAngle = -25;
+            if (overtaking > 0) {
+                if ((vd.getAbsTraveledPath() - overtaking) < laneSwitchingOffset) {
+                    steerAngle = optimisedAngle * -1;
                 } else {
                     lc.setCmd(false);
                 }
@@ -97,31 +101,31 @@ namespace msv {
                 if (irRearRight > 0 && ! obstacleMet) obstacleMet = 1;
 
                 if (obstacleMet) {
-                    if (irFrontRight < 0) {
-                        overtaking = 0;
+                    if (irFrontRight < 0 && ! (usFrontRight > 0 && usFrontRight < objectDistance)) {
+                        overtaking = -1;
                         obstacleMet = 0;
 
-                        if (! finaliseOvertaking) finaliseOvertaking = vd.getAbsTraveledPath();
+                        if (finaliseOvertaking < 0) finaliseOvertaking = vd.getAbsTraveledPath();
                     }
                 }
             }
 
-            if (finaliseOvertaking) {
+            if (finaliseOvertaking > 0) {
                 if ((vd.getAbsTraveledPath() - finaliseOvertaking) < laneSwitchingOffset) {
-                    steerAngle = 25;
+                    steerAngle = optimisedAngle;
                 } else {
-                    if (! calibrateToLane) calibrateToLane = vd.getAbsTraveledPath();
+                    if (calibrateToLane <= 0) calibrateToLane =  vd.getAbsTraveledPath();
 
                     if ((vd.getAbsTraveledPath() - calibrateToLane) < laneSwitchingOffset) {
-                        steerAngle = -25;
+                        steerAngle = optimisedAngle * -1;
                     } else {
                         lc.setCmd(true);
-                        finaliseOvertaking = 0;
-                        calibrateToLane = 0;
+                        finaliseOvertaking = -1;
+                        calibrateToLane = -1;
                     }
                 }
             }
-
+	
             cout << "overtaking: " << overtaking << endl;
             cout << "obstacleMet: " << obstacleMet << endl;
             cout << "finaliseOvertaking: " << finaliseOvertaking << endl;
