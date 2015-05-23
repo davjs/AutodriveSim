@@ -61,9 +61,8 @@ namespace msv {
 
         int objectDistance = 10;
         double laneSwitchingOffset = 6;
-        int optimisedAngle = 20;
-
-
+        int optimisedAngle = 22;
+        
         while (getModuleState() == ModuleState::RUNNING) {
             Container containerVehicleData = getKeyValueDataStore().get(Container::VEHICLEDATA);
             VehicleData vd = containerVehicleData.getData<VehicleData>();
@@ -125,7 +124,7 @@ namespace msv {
                     }
                 }
             }
-	
+
             cout << "overtaking: " << overtaking << endl;
             cout << "obstacleMet: " << obstacleMet << endl;
             cout << "finaliseOvertaking: " << finaliseOvertaking << endl;
